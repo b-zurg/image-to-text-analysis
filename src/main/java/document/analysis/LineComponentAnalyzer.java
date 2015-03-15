@@ -26,7 +26,6 @@ public class LineComponentAnalyzer {
 
 		preprocessImageForLineAnalysis();
 		
-		//ajfkdl;safjkdl;sajfkdpwajif3e4wqjnmfkdlsa;jf
 	}
 	
 	public List<BufferedImage> getWordSubImages() {
