@@ -7,6 +7,7 @@ import com.google.common.collect.ArrayListMultimap;
 import com.google.common.collect.Lists;
 import com.sun.prism.paint.Color;
 
+import document.structure.Line;
 import utils.ImageUtils;
 import utils.MyImageIO;
 import utils.Point;
@@ -15,13 +16,14 @@ public class ParagraphComponentAnalyzer {
 	BufferedImage untouchedImage, mutableImage;
 	MyImageIO imageio = new MyImageIO();
 
-	
+	@Deprecated
 	private void preprocessImageForLineAnalysis() {
 		ImageUtils.blurImageFast(mutableImage, 5,  5);
 		ImageUtils.blurImageHorizontal(mutableImage, 5, 5);
 		ImageUtils.threshold(mutableImage, 0.9);
 	}
 	
+	@Deprecated
 	public void setParagraphImage(BufferedImage image) {
 		this.untouchedImage = ImageUtils.copyImage(image);
 		this.mutableImage = ImageUtils.copyImage(image);
@@ -29,6 +31,25 @@ public class ParagraphComponentAnalyzer {
 		preprocessImageForLineAnalysis();
 	}
 	
+	public void setImages(BufferedImage untouchedImage, BufferedImage blurredImage) {
+		this.untouchedImage = ImageUtils.copyImage(untouchedImage);
+		this.mutableImage = ImageUtils.copyImage(blurredImage);		
+	}
+	
+	public void setImages(BufferedImage untouchedImage) {
+		this.untouchedImage = ImageUtils.copyImage(untouchedImage);
+		this.mutableImage = ImageUtils.copyImage(untouchedImage);				
+	}
+	
+	public void setHorizontalBlur(int neighborhood, int iterations) {
+		ImageUtils.blurImageHorizontal(mutableImage, neighborhood, iterations);
+	}
+	public void setBlur(int neighborhood, int iterations) {
+		ImageUtils.blurImageFast(mutableImage, neighborhood, iterations);
+	}
+	public void setThreshold(double threshold) {
+		ImageUtils.threshold(mutableImage, threshold);
+	}
 	
 	public List<BufferedImage> getLineSubImages() {
 		List<Integer> lineSplits = getLineSplits();
@@ -45,6 +66,17 @@ public class ParagraphComponentAnalyzer {
 		}
 		return subImages;
 	}
+	
+	public List<Line> getLineObjects() {
+		List<BufferedImage> lineImages = this.getLineSubImages();
+		List<Line> lineObjects = Lists.newArrayList();
+		for(BufferedImage lineImage : lineImages) {
+			Line line = new Line(lineImage);
+			lineObjects.add(line);
+		}
+		return lineObjects;
+	}
+	
 	
 	private int getBeginningX(int y, int buffer) {
 		int prevColor = mutableImage.getRGB(0, y);
@@ -73,7 +105,7 @@ public class ParagraphComponentAnalyzer {
 		return Math.min(endX + buffer, mutableImage.getWidth()-1);
 	}
 	
-	private List<Integer> getLineSplits(){
+	public  List<Integer> getLineSplits(){
 		
 		ArrayListMultimap<Integer, Integer> yTracerSamples = getVerticalTracerSampleSet(80);
 		List<Integer> best = getVerticalTracerWithMostSplits(yTracerSamples);

@@ -101,9 +101,9 @@ public class ImageUtils {
 	}
 
 	public static void blurImageVertical(BufferedImage image, int radius, int blurLevel) {
-		BufferedImage newImage = image;
 		for(int level = 0; level < blurLevel; level++) 
 		{
+			BufferedImage newImage = ImageUtils.copyImage(image);
 			for(int x = 0; x < newImage.getWidth(); x++)
 			{
 				int topy = 0;
@@ -134,7 +134,6 @@ public class ImageUtils {
 
 					averagedColor = new Color(totalred/totalPixels, totalgreen/totalPixels, totalblue/totalPixels);
 					image.setRGB(x, y, averagedColor.getRGB());
-
 				}
 			}
 		}
