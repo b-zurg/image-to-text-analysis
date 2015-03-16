@@ -101,9 +101,10 @@ public class ImageUtils {
 	}
 
 	public static void blurImageVertical(BufferedImage image, int radius, int blurLevel) {
+		BufferedImage newImage = image;
+
 		for(int level = 0; level < blurLevel; level++) 
 		{
-			BufferedImage newImage = ImageUtils.copyImage(image);
 			for(int x = 0; x < newImage.getWidth(); x++)
 			{
 				int topy = 0;
@@ -230,7 +231,31 @@ public class ImageUtils {
 			image.setRGB(x, y, Color.GREEN.getRGB());
 		}
 	}
+	
+	public static void drawLineBetweenPoints(Point p1, Point p2, BufferedImage image) {
+		Graphics g = image.getGraphics();
+		g.setColor(Color.RED);
+		g.drawLine(p1.X(), p1.Y(), p2.X(), p2.Y());
+	}
 
+	
+	public static List<Point> getBlackPixelPositions(BufferedImage image){
+		List<Point> pixelPositions = Lists.newArrayList();
+//		int black = Color.BLACK.getRGB();
+		int white = Color.WHITE.getRGB();
+		
+		for(int x = 0; x < image.getWidth(); x++)
+		{
+			for(int y = 0; y < image.getHeight(); y++)
+			{
+				int imageRGB = image.getRGB(x, y);
+				if(white > imageRGB){
+					pixelPositions.add(new Point(x, y));
+				}
+			}
+		}
+		return pixelPositions;
+	}
 
 
 }

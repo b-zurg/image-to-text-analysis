@@ -21,30 +21,12 @@ public class WordComponentAnalyzer {
 		this.image = image;
 		ImageUtils.threshold(image, 0.9);
 		
-		this.totalBlackPixels = getBlackPixelPositions();
+		this.totalBlackPixels = ImageUtils.getBlackPixelPositions(image);
 		this.letters = getLetters();
 		combineDotsBackToIJ();
 		removeSuperSmallLetters();
 	}
-	
-	
-	public List<Point> getBlackPixelPositions(){
-		List<Point> pixelPositions = Lists.newArrayList();
-//		int black = Color.BLACK.getRGB();
-		int white = Color.WHITE.getRGB();
-		
-		for(int x = 0; x < image.getWidth(); x++)
-		{
-			for(int y = 0; y < image.getHeight(); y++)
-			{
-				int imageRGB = image.getRGB(x, y);
-				if(white > imageRGB){
-					pixelPositions.add(new Point(x, y));
-				}
-			}
-		}
-		return pixelPositions;
-	}
+
 	
 	public List<BufferedImage> getLetterImages() {
 //		BufferedImage wordImage = ImageUtils.makeImageFromPoints(getBlackPixelPositions(), image.getWidth(), image.getHeight(), 10);
@@ -70,7 +52,6 @@ public class WordComponentAnalyzer {
 						lettersToRemove.add(letter2);
 						lettersToIgnore.add(j);
 					}
-					
 				}
 			}
 		}
