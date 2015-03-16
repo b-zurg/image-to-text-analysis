@@ -1,5 +1,7 @@
 package document.analysis;
 
+import java.awt.Color;
+import java.awt.Graphics;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.util.Collections;
@@ -8,7 +10,8 @@ import java.util.List;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
-import com.google.common.collect.Lists;
+
+
 
 import utils.ImageUtils;
 import utils.MyImageIO;
@@ -21,9 +24,8 @@ public class ItalicsDotAnalyzer {
 		
 		List<Point> intervalSet1 = this.getPixelsBetweenYPercentageVals(pixelSet, percentageInterval1[0], percentageInterval1[1]);
 		List<Point> intervalSet2 = this.getPixelsBetweenYPercentageVals(pixelSet, percentageInterval2[0], percentageInterval2[1]);
- 		System.out.println("interval 1 set size: " + intervalSet1.size());
- 		System.out.println("interval 2 set size: " + intervalSet2.size());
-		
+		Point p1 = getCentralPointOf(intervalSet1);
+		Point p2 = getCentralPointOf(intervalSet2);
 		
 		Function<Integer, Integer> slopeFunct = getSlopeFunctionBetweenPixelSets(intervalSet1, intervalSet2);
 		
@@ -31,13 +33,16 @@ public class ItalicsDotAnalyzer {
 		int minx = xstats.getMin();
 		int maxx = xstats.getMax();
 		
-		int miny = slopeFunct.apply(0);
-		int maxy = slopeFunct.apply(100);
+		int miny = slopeFunct.apply(minx);
+		int maxy = slopeFunct.apply(maxx);		
 		
-		System.out.println("x1: " + minx + " y1: " + miny);
-		System.out.println("x2: " + maxx + " y2: " + maxy);		
+		ImageUtils.drawPointOnLetter(image, p1);
+		ImageUtils.drawPointOnLetter(image, p2);
 		ImageUtils.drawLineBetweenPoints(new Point(minx, miny), new Point(maxx, maxy), image);
 	}
+	
+
+	
 	
 	public Function<Integer, Integer> getSlopeFunctionBetweenPixelSets(
 			List<Point> set1, List<Point> set2) { 
@@ -48,17 +53,12 @@ public class ItalicsDotAnalyzer {
 	}
 	
 	public Function<Integer, Integer> getSlopeFunctionBetweenPoints(Point p1, Point p2) {
-		int x1 = p1.X();
-		int x2 = p2.X();
+		int x1 = p1.X(); int x2 = p2.X();
+		int y1 = p1.Y(); int y2 = p2.Y();
+		double slope = (y2-y1)/(x2-x1);		
+		double yIntercept = -(int) slope*x1 + y1;
 		
-		int y1 = p1.Y();
-		int y2 = p2.Y();
-		System.out.println("x1: " + x1 + " y1: " + y1);
-		System.out.println("x2: " + x2 + " y2: " + y2);		
-
-		double slope = (y2-y1)/(x2-x1);
-		
-		Function<Integer, Integer> slopeFunction = x -> y1 + (int) slope*x;
+		Function<Integer, Integer> slopeFunction = x -> (int) (yIntercept + slope*x);
 		return slopeFunction;
 	}
 	
@@ -76,20 +76,12 @@ public class ItalicsDotAnalyzer {
 	
 	private List<Point> getPixelsBetweenYPercentageVals(
 			List<Point> pixelSet, double topPercentage, double bottomPercentage) {
+		
 		int[] yCutoffs = findYCutoffsBetweenPercentagesFromTop(pixelSet, topPercentage, bottomPercentage);
 		int miny = yCutoffs[0];
 		int maxy = yCutoffs[1];
-//		List<Point> set = pixelSet.stream().filter(p -> miny >= p.Y()).collect(Collectors.toList());
-		List<Point> toRemove = Lists.newArrayList();
-		for(int i = 0; i < pixelSet.size(); i++) {
-			if((pixelSet.get(i).Y() < miny) && (pixelSet.get(i).Y() > maxy)) {
-				toRemove.add(pixelSet.get(i));
-			}
-		}
-		pixelSet.removeAll(toRemove);
-		System.out.println("minmax: " + miny + " : " + maxy);
-		System.out.println("setsize: " + pixelSet.size());
-		return pixelSet;
+		List<Point> set = pixelSet.stream().filter(p -> miny <= p.Y() && p.Y() <= maxy).collect(Collectors.toList());
+		return set;
 	}
 	
 	
@@ -101,7 +93,7 @@ public class ItalicsDotAnalyzer {
 		
 		int topYCutoff = (int) (allYs.size() * topPercentage);	
 		int bottomYCutoff = (int) (allYs.size() * bottomPercentage);
-		return new int[] {topYCutoff, bottomYCutoff};
+		return new int[] {allYs.get(topYCutoff), allYs.get(bottomYCutoff)};
 	}
 	
 	
@@ -111,7 +103,7 @@ public class ItalicsDotAnalyzer {
 		
 		ItalicsDotAnalyzer ianalyzer = new ItalicsDotAnalyzer();
 		
-		ianalyzer.drawOrientationLineOnLetter(iImage, new double[] {0.3, 0.4}, new double[] {0.6, 0.7});
+		ianalyzer.drawOrientationLineOnLetter(iImage, new double[] {0.3, 0.4}, new double[] {0.5, 0.6});
 		imageio.saveImage(iImage, "D:\\Code\\workspace", "orientationIDrawn");
 	}
 }

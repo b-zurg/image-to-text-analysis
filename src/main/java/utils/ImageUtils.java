@@ -237,6 +237,13 @@ public class ImageUtils {
 		g.setColor(Color.RED);
 		g.drawLine(p1.X(), p1.Y(), p2.X(), p2.Y());
 	}
+	
+	public static void drawPointOnLetter(BufferedImage image, Point p1) {
+		Graphics g = image.getGraphics();
+		g.setColor(Color.RED);
+		
+		g.drawOval(p1.X(), p1.Y(), 30, 30);
+	}
 
 	
 	public static List<Point> getBlackPixelPositions(BufferedImage image){
