@@ -13,6 +13,8 @@ import java.util.stream.Collectors;
 
 
 
+
+import utils.CoordinateUtils;
 import utils.ImageUtils;
 import utils.MyImageIO;
 import utils.Point;
@@ -24,44 +26,63 @@ public class ItalicsDotAnalyzer {
 		
 		List<Point> intervalSet1 = this.getPixelsBetweenYPercentageVals(pixelSet, percentageInterval1[0], percentageInterval1[1]);
 		List<Point> intervalSet2 = this.getPixelsBetweenYPercentageVals(pixelSet, percentageInterval2[0], percentageInterval2[1]);
+		List<Point> wayTopPointSet = this.getPixelsBetweenYPercentageVals(pixelSet, 0.01, 0.09);
+		
+		Point wayTopPoint = getCentralPointOf(wayTopPointSet);
 		Point p1 = getCentralPointOf(intervalSet1);
 		Point p2 = getCentralPointOf(intervalSet2);
 		
-		Function<Integer, Integer> slopeFunct = getSlopeFunctionBetweenPixelSets(intervalSet1, intervalSet2);
+		Function<Integer, Integer> xInSlopeFunction = getSlopeFunctionBetweenPixelSets(intervalSet1, intervalSet2, true);
+		Function<Integer, Integer> yInSlopeFunction = getSlopeFunctionBetweenPixelSets(intervalSet1, intervalSet2, false);
 		
 		IntSummaryStatistics xstats = pixelSet.stream().mapToInt(p -> p.X()).summaryStatistics();
 		int minx = xstats.getMin();
 		int maxx = xstats.getMax();
 		
-		int miny = slopeFunct.apply(minx);
-		int maxy = slopeFunct.apply(maxx);		
+		int miny = xInSlopeFunction .apply(minx);
+		int maxy = xInSlopeFunction .apply(maxx);		
 		
 		ImageUtils.drawPointOnLetter(image, p1);
 		ImageUtils.drawPointOnLetter(image, p2);
 		ImageUtils.drawLineBetweenPoints(new Point(minx, miny), new Point(maxx, maxy), image);
+		
+		drawProjectedBox(xInSlopeFunction, yInSlopeFunction , image, wayTopPoint, 200);
 	}
 	
+	
+	public void drawProjectedBox(
+			Function<Integer, Integer> xInSlopeFunct, 
+			Function<Integer, Integer> yInSlopeFunct,
+			BufferedImage image, 
+			Point startPoint, 
+			int bufferWidth) {
+		
+		int xstart = startPoint.X();
+		int ystart = startPoint.Y();
+		int topx = yInSlopeFunct.apply(0);
+		int topy = xInSlopeFunct.apply(topx);
+		
+		Point p1 = new Point(xstart - bufferWidth, ystart);
+		Point p2 = new Point(xstart + bufferWidth, ystart);
+		Point p3 = new Point(topx + bufferWidth, topy);
+		Point p4 = new Point(topx - bufferWidth, topy);
+		
+		ImageUtils.drawLineBetweenPoints(p1, p2, image);
+		ImageUtils.drawLineBetweenPoints(p2, p3, image);
+		ImageUtils.drawLineBetweenPoints(p3, p4, image);
+		ImageUtils.drawLineBetweenPoints(p4, p1, image);
+	}
 
-	
-	
 	public Function<Integer, Integer> getSlopeFunctionBetweenPixelSets(
-			List<Point> set1, List<Point> set2) { 
+			List<Point> set1, List<Point> set2, boolean xIn) { 
 		Point p1 = getCentralPointOf(set1);
 		Point p2 = getCentralPointOf(set2);
 		
-		return getSlopeFunctionBetweenPoints(p1, p2);
-	}
-	
-	public Function<Integer, Integer> getSlopeFunctionBetweenPoints(Point p1, Point p2) {
-		int x1 = p1.X(); int x2 = p2.X();
-		int y1 = p1.Y(); int y2 = p2.Y();
-		double slope = (y2-y1)/(x2-x1);		
-		double yIntercept = -(int) slope*x1 + y1;
-		
-		Function<Integer, Integer> slopeFunction = x -> (int) (yIntercept + slope*x);
-		return slopeFunction;
-	}
-	
+		if ( xIn ) { 
+			return CoordinateUtils.getSlopeFunctionBetweenPointsXInput(p1, p2); }
+		else { 
+			return CoordinateUtils.getSlopeFunctionBetweenPointsYInput(p1, p2); }
+	}	
 	
 	private Point getCentralPointOf(List<Point> points) {
 		List<Integer> allXs = points.stream().map(p -> p.X()).collect(Collectors.toList());

@@ -3,6 +3,7 @@ package utils;
 import java.awt.Color;
 import java.awt.image.BufferedImage;
 import java.util.List;
+import java.util.function.Function;
 
 import com.google.common.collect.Lists;
 
@@ -68,5 +69,29 @@ public class CoordinateUtils {
 		}
 		return new int[] {left, right, top, bottom};
 	}
+	
+	public static Function<Integer, Integer> getSlopeFunctionBetweenPointsXInput(Point p1, Point p2) {
+		int x1 = p1.X(); int x2 = p2.X();
+		int y1 = p1.Y(); int y2 = p2.Y();
+		double slope = (y2-y1)/(x2-x1);		
+		double yIntercept1 = (int) (y1 - (slope*x1));
+		double yIntercept2 = (int) (y2 - (slope*x2));
+		double yInterceptFinal = (int) ((yIntercept1 + yIntercept2) /2);		
+		
+		Function<Integer, Integer> slopeFunction = x -> (int) (yInterceptFinal + slope*x);
+		return slopeFunction;
+	}
+	public static Function<Integer, Integer> getSlopeFunctionBetweenPointsYInput(Point p1, Point p2) {
+		int x1 = p1.X(); int x2 = p2.X();
+		int y1 = p1.Y(); int y2 = p2.Y();
+		double slope = (y2-y1)/(x2-x1);		
+		double yIntercept1 = (int) (y1 - (slope*x1));
+		double yIntercept2 = (int) (y2 - (slope*x2));
+		double yInterceptFinal = (int) ((yIntercept1 + yIntercept2) /2);
+		
+		Function<Integer, Integer> slopeFunction = y -> (int) ((y-yInterceptFinal)/slope);
+		return slopeFunction;
+	}
+	
 	
 }
