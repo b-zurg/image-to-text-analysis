@@ -207,7 +207,10 @@ public class ImageUtils {
 		graphics.fillRect(0, 0, newImage.getWidth(), newImage.getHeight());
 		
 		for(Point blackPixel : centeredImagePoints) {
-			newImage.setRGB(blackPixel.X()+spacing, blackPixel.Y()+spacing, Color.BLACK.getRGB());
+			int x = Math.min(Math.max(blackPixel.X()+spacing, 0), newImage.getWidth()-1);
+			int y = Math.min(Math.max(blackPixel.Y()+spacing, 0), newImage.getHeight()-1);
+			
+			newImage.setRGB(x, y, Color.BLACK.getRGB());
 		}
 		 
 //		newImage.getScaledInstance(100, 100, java.awt.Image.SCALE_SMOOTH);
@@ -238,7 +241,7 @@ public class ImageUtils {
 		g.drawLine(p1.X(), p1.Y(), p2.X(), p2.Y());
 	}
 	
-	public static void drawPointOnLetter(BufferedImage image, Point p1) {
+	public void drawPointOnLetter(BufferedImage image, Point p1) {
 		Graphics g = image.getGraphics();
 		g.setColor(Color.RED);
 		

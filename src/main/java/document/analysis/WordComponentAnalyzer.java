@@ -47,10 +47,13 @@ public class WordComponentAnalyzer {
 				if(i != j && !lettersToIgnore.contains(i) && !lettersToIgnore.contains(j)) {
 					Letter letter1 = letters.get(i);
 					Letter letter2 = letters.get(j);
-					if(letter1.isOtherLetterDot(letter2, 0.90)){
+					int pixwidth = 2;
+//					if(letter1.getWidth() > pixwidth  && letter1.getHeight() > pixwidth  && letter2.getWidth() > pixwidth  && letter2.getHeight()> pixwidth ) {
+					if(ItalicsDotAnalyzer.isLetterDotOfLetter(letter1.getLetterPixelPoints(), letter2.getLetterPixelPoints(), new double[] {0.3, 0.4}, new double[] {0.5, 0.6})){
 						letter1.gobbleLetter(letter2);
 						lettersToRemove.add(letter2);
 						lettersToIgnore.add(j);
+//					}
 					}
 				}
 			}

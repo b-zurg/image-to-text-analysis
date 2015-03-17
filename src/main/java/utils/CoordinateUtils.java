@@ -73,23 +73,47 @@ public class CoordinateUtils {
 	public static Function<Integer, Integer> getSlopeFunctionBetweenPointsXInput(Point p1, Point p2) {
 		int x1 = p1.X(); int x2 = p2.X();
 		int y1 = p1.Y(); int y2 = p2.Y();
-		double slope = (y2-y1)/(x2-x1);		
+		int rise = (y2 - y1); int run = (x2 - x1);
+		double slope = 0;
+		if(rise != 0 && run != 0) { 
+			slope = (rise)/(run); 
+		} else {
+			Function<Integer, Integer> slopeFunction = x -> y2;
+			return slopeFunction;
+		}
+//		double slope = (y2-y1)/(x2-x1); 
+				
 		double yIntercept1 = (int) (y1 - (slope*x1));
 		double yIntercept2 = (int) (y2 - (slope*x2));
 		double yInterceptFinal = (int) ((yIntercept1 + yIntercept2) /2);		
 		
-		Function<Integer, Integer> slopeFunction = x -> (int) (yInterceptFinal + slope*x);
+		double slope2 = slope;
+		Function<Integer, Integer> slopeFunction = x -> (int) (yInterceptFinal + slope2*x);
 		return slopeFunction;
 	}
 	public static Function<Integer, Integer> getSlopeFunctionBetweenPointsYInput(Point p1, Point p2) {
 		int x1 = p1.X(); int x2 = p2.X();
 		int y1 = p1.Y(); int y2 = p2.Y();
-		double slope = (y2-y1)/(x2-x1);		
+		int rise = (y2 - y1); int run = (x2 - x1);
+		double slope = 1;
+		if(rise > 0.01 && run > 0.01) { 
+			slope = rise/run; 
+			if(slope < 0.01) {
+				Function<Integer, Integer> slopeFunction = y -> x1;
+				return slopeFunction;				
+			}
+		} else {
+			Function<Integer, Integer> slopeFunction = y -> x1;
+			return slopeFunction;
+		}		
+//		double slope = (y2-y1)/(x2-x1); 
+		
 		double yIntercept1 = (int) (y1 - (slope*x1));
 		double yIntercept2 = (int) (y2 - (slope*x2));
 		double yInterceptFinal = (int) ((yIntercept1 + yIntercept2) /2);
-		
-		Function<Integer, Integer> slopeFunction = y -> (int) ((y-yInterceptFinal)/slope);
+
+		double slope2 = slope;
+		Function<Integer, Integer> slopeFunction = y -> (int) ((y-yInterceptFinal)/slope2);
 		return slopeFunction;
 	}
 	

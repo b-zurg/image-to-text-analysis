@@ -63,6 +63,8 @@ public class Letter {
 	public int getRight() { return originalRight; }
 	public int getTop() { return originalTop; }
 	public int getBottom() { return originalBottom; }
+	public int getWidth()  { return originalRight - originalLeft; } 
+	public int getHeight() { return originalBottom - originalTop; }
 	
 	public void gobbleLetter(Letter other) {
 		this.originalPixels.addAll(other.getLetterPixelPoints());
