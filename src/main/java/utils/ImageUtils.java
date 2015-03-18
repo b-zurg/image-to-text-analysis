@@ -223,7 +223,6 @@ public class ImageUtils {
 			createHorizontalRedLineAt(image, y);
 		}
 	}
-
 	public static void createHorizontalRedLineAt(BufferedImage image, Integer y){
 		for(int x = 0; x < image.getWidth(); x++){
 			image.setRGB(x, y, Color.RED.getRGB());
@@ -241,11 +240,10 @@ public class ImageUtils {
 		g.drawLine(p1.X(), p1.Y(), p2.X(), p2.Y());
 	}
 	
-	public void drawPointOnLetter(BufferedImage image, Point p1) {
+	public static void drawPointOnLetter(BufferedImage image, Point p1, int radius) {
 		Graphics g = image.getGraphics();
 		g.setColor(Color.RED);
-		
-		g.drawOval(p1.X(), p1.Y(), 30, 30);
+		g.drawOval(p1.X()-radius, p1.Y()-radius, radius, radius);
 	}
 
 	
