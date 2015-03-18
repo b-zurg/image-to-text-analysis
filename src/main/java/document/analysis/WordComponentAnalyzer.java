@@ -49,7 +49,7 @@ public class WordComponentAnalyzer {
 					Letter letter2 = letters.get(j);
 					int pixwidth = 2;
 //					if(letter1.getWidth() > pixwidth  && letter1.getHeight() > pixwidth  && letter2.getWidth() > pixwidth  && letter2.getHeight()> pixwidth ) {
-					if(ItalicsDotAnalyzer.isLetterDotOfLetter(letter1.getLetterPixelPoints(), letter2.getLetterPixelPoints(), new double[] {0.3, 0.4}, new double[] {0.5, 0.6})){
+					if(letter1.isOtherLetterDot(letter2)){
 						letter1.gobbleLetter(letter2);
 						lettersToRemove.add(letter2);
 						lettersToIgnore.add(j);

@@ -5,6 +5,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import document.analysis.ItalicsDotAnalyzer;
 import utils.CoordinateUtils;
 import utils.ImageUtils;
 import utils.Point;
@@ -78,31 +79,18 @@ public class Letter {
 		else if (this.getLeft() > other.getRight() ) {
 			return false;
 		}
+		else if (this.getTop() < other.getBottom()) {
+			return false;
+		}
 		else { 
 			return true;
 		}
 	}
 	
-	public boolean isOtherLetterDot(Letter other, double percentageThreshold) {
+	public boolean isOtherLetterDot(Letter other) {
 		if(letterIsEligibleDot(other)){
-		
-			Set<Integer> otherLetterXs = other.getLetterXs();
-			
-			int otherSize = otherLetterXs.size();
-			int hits = 0;
-			
-			for(int x : otherLetterXs){
-				if (allXs.contains(x)){
-					hits++;
-				}
-			}
-			
-			float percentageLikely = hits/otherSize;
-			if(percentageLikely > percentageThreshold) {
-				return true;
-			} else {
-				return false;
-			}
+			return ItalicsDotAnalyzer.isLetterDotOfLetter(this, other,
+					new double[] {0.4, 0.5}, new double[] {0.5, 0.6});
 		}
 		else { return false; }
 	}

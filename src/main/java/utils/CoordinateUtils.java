@@ -7,6 +7,9 @@ import java.util.function.Function;
 
 import com.google.common.collect.Lists;
 
+import document.analysis.containers.SlopeFunctions;
+import document.analysis.containers.SlopeFunctions.SlopeFunctionsBuilder;
+
 public class CoordinateUtils {
 
 	
@@ -70,51 +73,31 @@ public class CoordinateUtils {
 		return new int[] {left, right, top, bottom};
 	}
 	
-	public static Function<Integer, Integer> getSlopeFunctionBetweenPointsXInput(Point p1, Point p2) {
+	public static SlopeFunctions getSlopeFunctionBetweenPoints(Point p1, Point p2) {
 		int x1 = p1.X(); int x2 = p2.X();
 		int y1 = p1.Y(); int y2 = p2.Y();
 		int rise = (y2 - y1); int run = (x2 - x1);
-		double slope = 0;
-		if(rise != 0 && run != 0) { 
-			slope = (rise)/(run); 
-		} else {
-			Function<Integer, Integer> slopeFunction = x -> y2;
-			return slopeFunction;
-		}
-//		double slope = (y2-y1)/(x2-x1); 
-				
+		
+		double slope = run != 0 ? rise/run : 0;
+		
 		double yIntercept1 = (int) (y1 - (slope*x1));
 		double yIntercept2 = (int) (y2 - (slope*x2));
 		double yInterceptFinal = (int) ((yIntercept1 + yIntercept2) /2);		
 		
 		double slope2 = slope;
-		Function<Integer, Integer> slopeFunction = x -> (int) (yInterceptFinal + slope2*x);
-		return slopeFunction;
-	}
-	public static Function<Integer, Integer> getSlopeFunctionBetweenPointsYInput(Point p1, Point p2) {
-		int x1 = p1.X(); int x2 = p2.X();
-		int y1 = p1.Y(); int y2 = p2.Y();
-		int rise = (y2 - y1); int run = (x2 - x1);
-		double slope = 1;
-		if(rise > 0.01 && run > 0.01) { 
-			slope = rise/run; 
-			if(slope < 0.01) {
-				Function<Integer, Integer> slopeFunction = y -> x1;
-				return slopeFunction;				
-			}
-		} else {
-			Function<Integer, Integer> slopeFunction = y -> x1;
-			return slopeFunction;
-		}		
-//		double slope = (y2-y1)/(x2-x1); 
+		Function<Integer, Integer> xInFunction = 
+				slope != 0 
+					? x -> (int) (yInterceptFinal + slope2*x)
+					: x -> y1;
+		Function<Integer, Integer> yInFunction = 
+				slope != 0 
+					? y -> (int) ((y-yInterceptFinal)/slope2)
+					: y -> x1;
 		
-		double yIntercept1 = (int) (y1 - (slope*x1));
-		double yIntercept2 = (int) (y2 - (slope*x2));
-		double yInterceptFinal = (int) ((yIntercept1 + yIntercept2) /2);
-
-		double slope2 = slope;
-		Function<Integer, Integer> slopeFunction = y -> (int) ((y-yInterceptFinal)/slope2);
-		return slopeFunction;
+		return new SlopeFunctions.SlopeFunctionsBuilder().
+				setXInputYFunction(xInFunction).
+				setYInputXFunction(yInFunction).
+				build();
 	}
 	
 	
