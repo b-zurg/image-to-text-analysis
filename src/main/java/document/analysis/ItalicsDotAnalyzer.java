@@ -6,19 +6,27 @@ import java.util.IntSummaryStatistics;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+
+
 import document.analysis.containers.SlopeFunctions;
 import document.structure.Letter;
 import utils.CoordinateUtils;
 import utils.Point;
 
 public class ItalicsDotAnalyzer {
-	
+    private static final Logger log = LoggerFactory.getLogger(ItalicsDotAnalyzer.class);
+
 	
 	
 	public static boolean isLetterDotOfLetter(
 			Letter letter, Letter dot, 
 			double[] percentageInterval1, double[] percentageInterval2) 
 	{	
+		log.info("Starting dot analysis of two Letter objects");
+		
 		List<Point> dotPoints = dot.getLetterPixelPoints();
 		List<Point> letterPoints = letter.getLetterPixelPoints();
 		
@@ -39,6 +47,7 @@ public class ItalicsDotAnalyzer {
         		return false;
         	}
         }
+        log.info("Finished dot analysis of letters");
         return true;
 	}
 	
@@ -61,6 +70,8 @@ public class ItalicsDotAnalyzer {
 			double[] percentageInterval1, 
 			double[] percentageInterval2) 
 	{
+		log.info("Creating letter slope functions");
+		
 		List<Point> intervalSet1 = getPixelsBetweenYPercentageVals(letter, percentageInterval1[0], percentageInterval1[1]);
 		List<Point> intervalSet2 = getPixelsBetweenYPercentageVals(letter, percentageInterval2[0], percentageInterval2[1]);
 		
@@ -70,6 +81,8 @@ public class ItalicsDotAnalyzer {
 	private static SlopeFunctions getSlopeFunctionBetweenPixelSets(
 			List<Point> set1, List<Point> set2) 
 	{ 
+		log.info("Finding slope between two point sets");
+		
 		Point p1 = getCentralPointOf(set1);
 		Point p2 = getCentralPointOf(set2);
 		
@@ -78,6 +91,8 @@ public class ItalicsDotAnalyzer {
 	
 	private static Point getCentralPointOf(List<Point> points) 
 	{
+		log.info("Finding central point of Point set");
+		
 		List<Integer> allXs = points.stream().map(p -> p.X()).collect(Collectors.toList());
 		List<Integer> allYs = points.stream().map(p -> p.Y()).collect(Collectors.toList());
 		Collections.sort(allXs);
@@ -89,6 +104,8 @@ public class ItalicsDotAnalyzer {
 	private static List<Point> getPixelsBetweenYPercentageVals(
 			List<Point> pixelSet, double topPercentage, double bottomPercentage) 
 	{	
+		log.info("Finding Point set between percentages of Point set");
+		
 		int[] yCutoffs = findYCutoffsBetweenPercentagesFromTop(pixelSet, topPercentage, bottomPercentage);
 		int miny = yCutoffs[0];
 		int maxy = yCutoffs[1];
@@ -99,6 +116,7 @@ public class ItalicsDotAnalyzer {
 	private static int[] findYCutoffsBetweenPercentagesFromTop(
 			List<Point> pixelSet, double topPercentage, double bottomPercentage) 
 	{
+		log.info("Finding y value corresponding to percentage traversal from top of Point set");
 		List<Integer> allYs = pixelSet.stream().map(p -> p.Y()).collect(Collectors.toList());
 		Collections.sort(allYs);
 		

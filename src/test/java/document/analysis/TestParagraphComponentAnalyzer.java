@@ -6,7 +6,9 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.util.List;
+import java.util.logging.Logger;
 
+import org.apache.log4j.BasicConfigurator;
 import org.junit.Test;
 
 import recognition.LetterOCR;
@@ -24,12 +26,15 @@ public class TestParagraphComponentAnalyzer {
 	ParagraphComponentAnalyzer Panalyzer = new ParagraphComponentAnalyzer();
 	LineComponentAnalyzer Lanalyzer = new LineComponentAnalyzer();
 	
+	
+	
 	@Test
 	public void test() throws IOException {
 		BufferedImage img = imageio.openBufferedImage("D:\\Code\\workspace\\ImageToText-Analysis\\src\\test\\resources\\documents\\paragraph3.png");
 		Panalyzer.setParagraphImage(img);
 		List<BufferedImage> subLines = Panalyzer.getLineSubImages();
 		
+	
 //		LetterOCR locr = new LetterOCR();
 //		
 		for(int i = 0; i < subLines.size(); i++) {
