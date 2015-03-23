@@ -55,6 +55,100 @@
             <artifactId>log4j</artifactId>
             <version>1.2.16</version>
         </dependency>
+
+<!-- beginning of locally installed dependencies -->
+		<dependency>
+		  <groupId>local</groupId>
+		  <artifactId>org.marvinproject.image.render.lindenmayer</artifactId>
+		  <version>1.0</version>
+		</dependency>
+		<dependency>
+		  <groupId>local</groupId>
+		  <artifactId>org.marvinproject.image.render.mandelbrot</artifactId>
+		  <version>1.0</version>
+		</dependency>
+		<dependency>
+		  <groupId>local</groupId>
+		  <artifactId>org.marvinproject.image.render.text</artifactId>
+		  <version>1.0</version>
+		</dependency>
+		<dependency>
+		  <groupId>local</groupId>
+		  <artifactId>org.marvinproject.image.restoration.noiseReduction</artifactId>
+		  <version>1.0</version>
+		</dependency>
+		<dependency>
+		  <groupId>local</groupId>
+		  <artifactId>org.marvinproject.image.segmentation.crop</artifactId>
+		  <version>1.0</version>
+		</dependency>
+		<dependency>
+		  <groupId>local</groupId>
+		  <artifactId>org.marvinproject.image.segmentation.imageSlicer</artifactId>
+		  <version>1.0</version>
+		</dependency>
+		<dependency>
+		  <groupId>local</groupId>
+		  <artifactId>org.marvinproject.image.statistical.maximum</artifactId>
+		  <version>1.0</version>
+		</dependency>
+		<dependency>
+		  <groupId>local</groupId>
+		  <artifactId>org.marvinproject.image.statistical.median</artifactId>
+		  <version>1.0</version>
+		</dependency>
+		<dependency>
+		  <groupId>local</groupId>
+		  <artifactId>org.marvinproject.image.statistical.minimum</artifactId>
+		  <version>1.0</version>
+		</dependency>
+		<dependency>
+		  <groupId>local</groupId>
+		  <artifactId>org.marvinproject.image.statistical.mode</artifactId>
+		  <version>1.0</version>
+		</dependency>
+		<dependency>
+		  <groupId>local</groupId>
+		  <artifactId>org.marvinproject.image.steganography</artifactId>
+		  <version>1.0</version>
+		</dependency>
+		<dependency>
+		  <groupId>local</groupId>
+		  <artifactId>org.marvinproject.image.subtract</artifactId>
+		  <version>1.0</version>
+		</dependency>
+		<dependency>
+		  <groupId>local</groupId>
+		  <artifactId>org.marvinproject.image.texture.tileTexture</artifactId>
+		  <version>1.0</version>
+		</dependency>
+		<dependency>
+		  <groupId>local</groupId>
+		  <artifactId>org.marvinproject.image.transform.flip</artifactId>
+		  <version>1.0</version>
+		</dependency>
+		<dependency>
+		  <groupId>local</groupId>
+		  <artifactId>org.marvinproject.image.transform.rotate</artifactId>
+		  <version>1.0</version>
+		</dependency>
+		<dependency>
+		  <groupId>local</groupId>
+		  <artifactId>org.marvinproject.image.transform.scale</artifactId>
+		  <version>1.0</version>
+		</dependency>
+		<dependency>
+		  <groupId>local</groupId>
+		  <artifactId>org.marvinproject.image.transform.skew</artifactId>
+		  <version>1.0</version>
+		</dependency>
+<!-- end of local installed dependencies -->
   </dependencies>
+  <repositories>
+	  <repository>
+		<id>project</id>
+  		<url>file://${project.basedir}/repo</url>
+	</repository>
+  </repositories>
 
 </project>

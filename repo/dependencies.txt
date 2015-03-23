@@ -1,0 +1,340 @@
+<dependency>
+  <groupId>local</groupId>
+  <artifactId>marvin_1.5.1</artifactId>
+  <version>1.0</version>
+</dependency>
+<dependency>
+  <groupId>local</groupId>
+  <artifactId>org.marvinproject.image.artistic.mosaic</artifactId>
+  <version>1.0</version>
+</dependency>
+<dependency>
+  <groupId>local</groupId>
+  <artifactId>org.marvinproject.image.artistic.television</artifactId>
+  <version>1.0</version>
+</dependency>
+<dependency>
+  <groupId>local</groupId>
+  <artifactId>org.marvinproject.image.background.determineSceneBackground</artifactId>
+  <version>1.0</version>
+</dependency>
+<dependency>
+  <groupId>local</groupId>
+  <artifactId>org.marvinproject.image.blur.gaussianBlur</artifactId>
+  <version>1.0</version>
+</dependency>
+<dependency>
+  <groupId>local</groupId>
+  <artifactId>org.marvinproject.image.blur.pixelize</artifactId>
+  <version>1.0</version>
+</dependency>
+<dependency>
+  <groupId>local</groupId>
+  <artifactId>org.marvinproject.image.color.blackAndWhite</artifactId>
+  <version>1.0</version>
+</dependency>
+<dependency>
+  <groupId>local</groupId>
+  <artifactId>org.marvinproject.image.color.brightnessAndContrast</artifactId>
+  <version>1.0</version>
+</dependency>
+<dependency>
+  <groupId>local</groupId>
+  <artifactId>org.marvinproject.image.color.colorChannel</artifactId>
+  <version>1.0</version>
+</dependency>
+<dependency>
+  <groupId>local</groupId>
+  <artifactId>org.marvinproject.image.color.emboss</artifactId>
+  <version>1.0</version>
+</dependency>
+<dependency>
+  <groupId>local</groupId>
+  <artifactId>org.marvinproject.image.color.grayScale</artifactId>
+  <version>1.0</version>
+</dependency>
+<dependency>
+  <groupId>local</groupId>
+  <artifactId>org.marvinproject.image.color.histogramEqualization</artifactId>
+  <version>1.0</version>
+</dependency>
+<dependency>
+  <groupId>local</groupId>
+  <artifactId>org.marvinproject.image.color.invert</artifactId>
+  <version>1.0</version>
+</dependency>
+<dependency>
+  <groupId>local</groupId>
+  <artifactId>org.marvinproject.image.color.sepia</artifactId>
+  <version>1.0</version>
+</dependency>
+<dependency>
+  <groupId>local</groupId>
+  <artifactId>org.marvinproject.image.color.skinColorDetection</artifactId>
+  <version>1.0</version>
+</dependency>
+<dependency>
+  <groupId>local</groupId>
+  <artifactId>org.marvinproject.image.color.thresholding</artifactId>
+  <version>1.0</version>
+</dependency>
+<dependency>
+  <groupId>local</groupId>
+  <artifactId>org.marvinproject.image.combine.combineByMask</artifactId>
+  <version>1.0</version>
+</dependency>
+<dependency>
+  <groupId>local</groupId>
+  <artifactId>org.marvinproject.image.combine.combineByTransparency</artifactId>
+  <version>1.0</version>
+</dependency>
+<dependency>
+  <groupId>local</groupId>
+  <artifactId>org.marvinproject.image.combine.mergePhotos</artifactId>
+  <version>1.0</version>
+</dependency>
+<dependency>
+  <groupId>local</groupId>
+  <artifactId>org.marvinproject.image.convolution</artifactId>
+  <version>1.0</version>
+</dependency>
+<dependency>
+  <groupId>local</groupId>
+  <artifactId>org.marvinproject.image.corner.moravec</artifactId>
+  <version>1.0</version>
+</dependency>
+<dependency>
+  <groupId>local</groupId>
+  <artifactId>org.marvinproject.image.difference.differenceColor</artifactId>
+  <version>1.0</version>
+</dependency>
+<dependency>
+  <groupId>local</groupId>
+  <artifactId>org.marvinproject.image.difference.differenceGray</artifactId>
+  <version>1.0</version>
+</dependency>
+<dependency>
+  <groupId>local</groupId>
+  <artifactId>org.marvinproject.image.difference.differentRegions</artifactId>
+  <version>1.0</version>
+</dependency>
+<dependency>
+  <groupId>local</groupId>
+  <artifactId>org.marvinproject.image.edge.edgeDetector</artifactId>
+  <version>1.0</version>
+</dependency>
+<dependency>
+  <groupId>local</groupId>
+  <artifactId>org.marvinproject.image.edge.prewitt</artifactId>
+  <version>1.0</version>
+</dependency>
+<dependency>
+  <groupId>local</groupId>
+  <artifactId>org.marvinproject.image.edge.roberts</artifactId>
+  <version>1.0</version>
+</dependency>
+<dependency>
+  <groupId>local</groupId>
+  <artifactId>org.marvinproject.image.edge.sobel</artifactId>
+  <version>1.0</version>
+</dependency>
+<dependency>
+  <groupId>local</groupId>
+  <artifactId>org.marvinproject.image.equalization.histogramEqualization</artifactId>
+  <version>1.0</version>
+</dependency>
+<dependency>
+  <groupId>local</groupId>
+  <artifactId>org.marvinproject.image.fill.boundaryFill</artifactId>
+  <version>1.0</version>
+</dependency>
+<dependency>
+  <groupId>local</groupId>
+  <artifactId>org.marvinproject.image.halftone.circles</artifactId>
+  <version>1.0</version>
+</dependency>
+<dependency>
+  <groupId>local</groupId>
+  <artifactId>org.marvinproject.image.halftone.dithering</artifactId>
+  <version>1.0</version>
+</dependency>
+<dependency>
+  <groupId>local</groupId>
+  <artifactId>org.marvinproject.image.halftone.errorDiffusion</artifactId>
+  <version>1.0</version>
+</dependency>
+<dependency>
+  <groupId>local</groupId>
+  <artifactId>org.marvinproject.image.halftone.rylanders</artifactId>
+  <version>1.0</version>
+</dependency>
+<dependency>
+  <groupId>local</groupId>
+  <artifactId>org.marvinproject.image.histogram.colorHistogram</artifactId>
+  <version>1.0</version>
+</dependency>
+<dependency>
+  <groupId>local</groupId>
+  <artifactId>org.marvinproject.image.histogram.grayHistogram</artifactId>
+  <version>1.0</version>
+</dependency>
+<dependency>
+  <groupId>local</groupId>
+  <artifactId>org.marvinproject.image.interfaceTest</artifactId>
+  <version>1.0</version>
+</dependency>
+<dependency>
+  <groupId>local</groupId>
+  <artifactId>org.marvinproject.image.morphological.boundary</artifactId>
+  <version>1.0</version>
+</dependency>
+<dependency>
+  <groupId>local</groupId>
+  <artifactId>org.marvinproject.image.morphological.closing</artifactId>
+  <version>1.0</version>
+</dependency>
+<dependency>
+  <groupId>local</groupId>
+  <artifactId>org.marvinproject.image.morphological.dilation</artifactId>
+  <version>1.0</version>
+</dependency>
+<dependency>
+  <groupId>local</groupId>
+  <artifactId>org.marvinproject.image.morphological.erosion</artifactId>
+  <version>1.0</version>
+</dependency>
+<dependency>
+  <groupId>local</groupId>
+  <artifactId>org.marvinproject.image.morphological.opening</artifactId>
+  <version>1.0</version>
+</dependency>
+<dependency>
+  <groupId>local</groupId>
+  <artifactId>org.marvinproject.image.pattern.correlation</artifactId>
+  <version>1.0</version>
+</dependency>
+<dependency>
+  <groupId>local</groupId>
+  <artifactId>org.marvinproject.image.pattern.findColorPattern</artifactId>
+  <version>1.0</version>
+</dependency>
+<dependency>
+  <groupId>local</groupId>
+  <artifactId>org.marvinproject.image.pattern.harrisPlessey</artifactId>
+  <version>1.0</version>
+</dependency>
+<dependency>
+  <groupId>local</groupId>
+  <artifactId>org.marvinproject.image.pattern.patternRecognition</artifactId>
+  <version>1.0</version>
+</dependency>
+<dependency>
+  <groupId>local</groupId>
+  <artifactId>org.marvinproject.image.quantization.colorQuantization</artifactId>
+  <version>1.0</version>
+</dependency>
+<dependency>
+  <groupId>local</groupId>
+  <artifactId>org.marvinproject.image.quantization.grayScaleQuantization</artifactId>
+  <version>1.0</version>
+</dependency>
+<dependency>
+  <groupId>local</groupId>
+  <artifactId>org.marvinproject.image.render.grayGradient</artifactId>
+  <version>1.0</version>
+</dependency>
+<dependency>
+  <groupId>local</groupId>
+  <artifactId>org.marvinproject.image.render.iteratedFunctionSystem</artifactId>
+  <version>1.0</version>
+</dependency>
+<dependency>
+  <groupId>local</groupId>
+  <artifactId>org.marvinproject.image.render.juliaSet</artifactId>
+  <version>1.0</version>
+</dependency>
+<dependency>
+  <groupId>local</groupId>
+  <artifactId>org.marvinproject.image.render.lindenmayer</artifactId>
+  <version>1.0</version>
+</dependency>
+<dependency>
+  <groupId>local</groupId>
+  <artifactId>org.marvinproject.image.render.mandelbrot</artifactId>
+  <version>1.0</version>
+</dependency>
+<dependency>
+  <groupId>local</groupId>
+  <artifactId>org.marvinproject.image.render.text</artifactId>
+  <version>1.0</version>
+</dependency>
+<dependency>
+  <groupId>local</groupId>
+  <artifactId>org.marvinproject.image.restoration.noiseReduction</artifactId>
+  <version>1.0</version>
+</dependency>
+<dependency>
+  <groupId>local</groupId>
+  <artifactId>org.marvinproject.image.segmentation.crop</artifactId>
+  <version>1.0</version>
+</dependency>
+<dependency>
+  <groupId>local</groupId>
+  <artifactId>org.marvinproject.image.segmentation.imageSlicer</artifactId>
+  <version>1.0</version>
+</dependency>
+<dependency>
+  <groupId>local</groupId>
+  <artifactId>org.marvinproject.image.statistical.maximum</artifactId>
+  <version>1.0</version>
+</dependency>
+<dependency>
+  <groupId>local</groupId>
+  <artifactId>org.marvinproject.image.statistical.median</artifactId>
+  <version>1.0</version>
+</dependency>
+<dependency>
+  <groupId>local</groupId>
+  <artifactId>org.marvinproject.image.statistical.minimum</artifactId>
+  <version>1.0</version>
+</dependency>
+<dependency>
+  <groupId>local</groupId>
+  <artifactId>org.marvinproject.image.statistical.mode</artifactId>
+  <version>1.0</version>
+</dependency>
+<dependency>
+  <groupId>local</groupId>
+  <artifactId>org.marvinproject.image.steganography</artifactId>
+  <version>1.0</version>
+</dependency>
+<dependency>
+  <groupId>local</groupId>
+  <artifactId>org.marvinproject.image.subtract</artifactId>
+  <version>1.0</version>
+</dependency>
+<dependency>
+  <groupId>local</groupId>
+  <artifactId>org.marvinproject.image.texture.tileTexture</artifactId>
+  <version>1.0</version>
+</dependency>
+<dependency>
+  <groupId>local</groupId>
+  <artifactId>org.marvinproject.image.transform.flip</artifactId>
+  <version>1.0</version>
+</dependency>
+<dependency>
+  <groupId>local</groupId>
+  <artifactId>org.marvinproject.image.transform.rotate</artifactId>
+  <version>1.0</version>
+</dependency>
+<dependency>
+  <groupId>local</groupId>
+  <artifactId>org.marvinproject.image.transform.scale</artifactId>
+  <version>1.0</version>
+</dependency>
+<dependency>
+  <groupId>local</groupId>
+  <artifactId>org.marvinproject.image.transform.skew</artifactId>
+  <version>1.0</version>
+</dependency>

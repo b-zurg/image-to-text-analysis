@@ -43,8 +43,6 @@ public class Letter {
 		}
 		width = originalRight - originalLeft;
 		height = originalBottom - originalTop;
-		
-
 	}
 	
 	public List<Point> getLetterPixelPoints() {
@@ -90,7 +88,7 @@ public class Letter {
 	public boolean isOtherLetterDot(Letter other) {
 		if(letterIsEligibleDot(other)){
 			return ItalicsDotAnalyzer.isLetterDotOfLetter(this, other,
-					new double[] {0.4, 0.5}, new double[] {0.5, 0.6});
+					new double[] {0.41, 0.44}, new double[] {0.65, 0.67}, 3);
 		}
 		else { return false; }
 	}

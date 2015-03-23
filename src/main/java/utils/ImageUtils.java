@@ -62,13 +62,14 @@ public class ImageUtils {
 	}
 
 	public static void blurImageHorizontal(BufferedImage image, int radius, int blurLevel) {
-		BufferedImage newImage = image;
+		BufferedImage imageToModify = ImageUtils.copyImage(image);
+		BufferedImage referenceImage = ImageUtils.copyImage(image);
 		for(int level = 0; level < blurLevel; level++) 
 		{
-			for(int y = 0; y < newImage.getHeight(); y++) 
+			for(int y = 0; y < imageToModify.getHeight(); y++) 
 			{
 				int leftx = 0; 
-				int rightx = Math.min(newImage.getWidth(), radius);
+				int rightx = Math.min(imageToModify.getWidth()-1, radius);
 
 				List<Point> neighborCoords = Lists.newArrayList();
 				for(int xs= leftx; xs < rightx; xs++) 
@@ -76,67 +77,112 @@ public class ImageUtils {
 					neighborCoords.add(new Point(xs, y));
 				}
 				int totalPixels = neighborCoords.size();
-				int totalblue = totalColorForPixel(newImage, neighborCoords, getBlue);
-				int totalred = totalColorForPixel(newImage, neighborCoords, getRed);
-				int totalgreen = totalColorForPixel(newImage, neighborCoords, getGreen);
+				int totalblue = totalColorForPixel(referenceImage, neighborCoords, getBlue);
+				int totalred = totalColorForPixel(referenceImage, neighborCoords, getRed);
+				int totalgreen = totalColorForPixel(referenceImage, neighborCoords, getGreen);
 
 				Color averagedColor = new Color(totalred/totalPixels, totalgreen/totalPixels, totalblue/totalPixels);
 				image.setRGB(0, y, averagedColor.getRGB());
 
-				for(int x = 1; x < newImage.getWidth(); x++)
+				for(int x = 1; x < imageToModify.getWidth(); x++)
 				{	
-					int range = Math.min(newImage.getWidth(), x + radius) - Math.max(0, x);
-					int prevRGB = newImage.getRGB(x-1, y);
-					int nextRGB = newImage.getRGB(Math.min(newImage.getWidth()-1, x+radius), y);
+					leftx = Math.max(0, x - radius);
+					rightx = Math.min(imageToModify.getWidth()-1, x + radius);
+					
+					int range = rightx - leftx;
+					int prevRGB = referenceImage.getRGB(leftx, y);
+					int nextRGB = referenceImage.getRGB(rightx, y);
 
-					totalblue = totalblue - getBlue.apply(prevRGB) + getBlue.apply(nextRGB);
-					totalred = totalred - getRed.apply(prevRGB) + getRed.apply(nextRGB);
-					totalgreen = totalgreen - getGreen.apply(prevRGB) + getGreen.apply(nextRGB);
-
-					averagedColor = new Color(totalred/totalPixels, totalgreen/totalPixels, totalblue/totalPixels);
+					if(leftx == 0) {
+						totalblue = totalblue + getBlue.apply(nextRGB);
+						totalred = totalred + getRed.apply(nextRGB);
+						totalgreen = totalgreen + getGreen.apply(nextRGB);
+					}
+					else if(rightx == imageToModify.getWidth()-1) {
+						totalblue = totalblue - getBlue.apply(prevRGB);
+						totalred = totalred - getRed.apply(prevRGB);
+						totalgreen = totalgreen - getGreen.apply(prevRGB);						
+					}
+					else {
+						totalblue = totalblue - getBlue.apply(prevRGB) + getBlue.apply(nextRGB);
+						totalred = totalred - getRed.apply(prevRGB) + getRed.apply(nextRGB);
+						totalgreen = totalgreen - getGreen.apply(prevRGB) + getGreen.apply(nextRGB);
+					}
+					int newred = Math.min(255, Math.max(0, totalred/range));
+					int newgreen = Math.min(255, Math.max(0, totalgreen/range));
+					int newblue = Math.min(255, Math.max(0, totalblue/range));
+					averagedColor = new Color(newred, newgreen, newblue);
 					image.setRGB(x, y, averagedColor.getRGB());
 				}
 			}
+			referenceImage = ImageUtils.copyImage(image);
 		}
 	}
 
 	public static void blurImageVertical(BufferedImage image, int radius, int blurLevel) {
-		BufferedImage newImage = image;
-
+		BufferedImage referenceImage = ImageUtils.copyImage(image);
+		BufferedImage imageToModify = ImageUtils.copyImage(image);
+		
 		for(int level = 0; level < blurLevel; level++) 
 		{
-			for(int x = 0; x < newImage.getWidth(); x++)
+			for(int x = 0; x < imageToModify.getWidth(); x++)
 			{
 				int topy = 0;
-				int bottomy = Math.min(newImage.getHeight(), radius);
+				int bottomy = Math.min(imageToModify.getHeight()-1, radius);
 
 				List<Point> neighborCoords = Lists.newArrayList();
 				for(int ys = topy; ys < bottomy; ys++) {
 					neighborCoords.add(new Point(x, ys));
 				}
 				int totalPixels = neighborCoords.size();
-				int totalblue = totalColorForPixel(newImage, neighborCoords, getBlue);
-				int totalred = totalColorForPixel(newImage, neighborCoords, getRed);
-				int totalgreen = totalColorForPixel(newImage, neighborCoords, getGreen);
+				int totalblue = totalColorForPixel(referenceImage, neighborCoords, getBlue);
+				int totalred = totalColorForPixel(referenceImage, neighborCoords, getRed);
+				int totalgreen = totalColorForPixel(referenceImage, neighborCoords, getGreen);
 
 				Color averagedColor = new Color(totalred/totalPixels, totalgreen/totalPixels, totalblue/totalPixels);
 
 				image.setRGB(x, 0, averagedColor.getRGB());
 
-				for(int y = 1; y < newImage.getHeight(); y++)
+				for(int y = 1; y < imageToModify.getHeight(); y++)
 				{
-					int range = Math.min(newImage.getHeight(), y+radius) - Math.max(0, y);
-					int prevRGB = newImage.getRGB(x, y-1);
-					int nextRGB = newImage.getRGB(x, Math.min(newImage.getHeight()-1, y + radius));
+					topy = Math.max(0, y - radius);
+					bottomy = Math.min(image.getHeight()-1, y + radius);
+					
+					int range = bottomy - topy;
+					int prevRGB = referenceImage.getRGB(x, topy);
+					int nextRGB = referenceImage.getRGB(x, bottomy);
 
-					totalblue = totalblue - getBlue.apply(prevRGB) + getBlue.apply(nextRGB);
-					totalred = totalred - getRed.apply(prevRGB) + getRed.apply(nextRGB);
-					totalgreen = totalgreen - getGreen.apply(prevRGB) + getGreen.apply(nextRGB);
-
-					averagedColor = new Color(totalred/totalPixels, totalgreen/totalPixels, totalblue/totalPixels);
+					if(topy == 0) {
+						totalblue = totalblue + getBlue.apply(nextRGB);
+						totalred = totalred + getRed.apply(nextRGB);
+						totalgreen = totalgreen + getGreen.apply(nextRGB);
+					}
+					else if(bottomy == imageToModify.getWidth()-1) {
+						totalblue = totalblue - getBlue.apply(prevRGB);
+						totalred = totalred - getRed.apply(prevRGB);
+						totalgreen = totalgreen - getGreen.apply(prevRGB);						
+					}
+					else {
+						totalblue = totalblue - getBlue.apply(prevRGB) + getBlue.apply(nextRGB);
+						totalred = totalred - getRed.apply(prevRGB) + getRed.apply(nextRGB);
+						totalgreen = totalgreen - getGreen.apply(prevRGB) + getGreen.apply(nextRGB);
+					}
+					
+					int newred = totalred/range;
+					int newgreen = totalgreen/range;
+					int newblue = totalblue/range;
+					if(newred > 255 || newgreen > 255 || newblue > 255) {
+						System.out.println("range: " + range);
+					}
+					
+					newred = Math.min(255, Math.max(0, newred));
+					newgreen = Math.min(255, Math.max(0, newgreen));
+					newblue = Math.min(255, Math.max(0, newblue));
+					averagedColor = new Color(newred, newgreen, newblue);					
 					image.setRGB(x, y, averagedColor.getRGB());
 				}
 			}
+			referenceImage = ImageUtils.copyImage(image);
 		}
 	}
 

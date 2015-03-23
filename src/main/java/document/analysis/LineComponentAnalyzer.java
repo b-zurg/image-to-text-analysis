@@ -13,19 +13,37 @@ public class LineComponentAnalyzer {
 	BufferedImage untouchedImage, mutableImage;
 	MyImageIO imageio = new MyImageIO();
 
-	
+	@Deprecated
 	private void preprocessImageForLineAnalysis() {
 		ImageUtils.blurImageFast(mutableImage, 5,  4);
 		ImageUtils.blurImageVertical(mutableImage, 5, 3);
 		ImageUtils.threshold(mutableImage, 0.87);
 	}
-	
+	@Deprecated
 	public void setLineImage(BufferedImage lineImage) {
 		this.untouchedImage = ImageUtils.copyImage(lineImage);
 		this.mutableImage = ImageUtils.copyImage(lineImage);
-
 		preprocessImageForLineAnalysis();
-		
+	}
+	
+	public void setImages(BufferedImage untouchedImage, BufferedImage blurredImage) {
+		this.untouchedImage = ImageUtils.copyImage(untouchedImage);
+		this.mutableImage = ImageUtils.copyImage(blurredImage);		
+	}
+	
+	public void setImages(BufferedImage untouchedImage) {
+		this.untouchedImage = ImageUtils.copyImage(untouchedImage);
+		this.mutableImage = ImageUtils.copyImage(untouchedImage);				
+	}
+	
+	public void setHorizontalBlur(int neighborhood, int iterations) {
+		ImageUtils.blurImageHorizontal(mutableImage, neighborhood, iterations);
+	}
+	public void setBlur(int neighborhood, int iterations) {
+		ImageUtils.blurImageFast(mutableImage, neighborhood, iterations);
+	}
+	public void setThreshold(double threshold) {
+		ImageUtils.threshold(mutableImage, threshold);
 	}
 	
 	public List<BufferedImage> getWordSubImages() {

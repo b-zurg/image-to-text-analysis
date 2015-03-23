@@ -1,6 +1,5 @@
 package document.analysis;
 
-import java.awt.Color;
 import java.awt.image.BufferedImage;
 import java.util.List;
 
@@ -47,13 +46,10 @@ public class WordComponentAnalyzer {
 				if(i != j && !lettersToIgnore.contains(i) && !lettersToIgnore.contains(j)) {
 					Letter letter1 = letters.get(i);
 					Letter letter2 = letters.get(j);
-					int pixwidth = 2;
-//					if(letter1.getWidth() > pixwidth  && letter1.getHeight() > pixwidth  && letter2.getWidth() > pixwidth  && letter2.getHeight()> pixwidth ) {
 					if(letter1.isOtherLetterDot(letter2)){
 						letter1.gobbleLetter(letter2);
 						lettersToRemove.add(letter2);
 						lettersToIgnore.add(j);
-//					}
 					}
 				}
 			}
@@ -61,7 +57,7 @@ public class WordComponentAnalyzer {
 		letters.removeAll(lettersToRemove);
 	}
 	
-	public void removeSuperSmallLetters() {
+	private void removeSuperSmallLetters() {
 		List<Letter> lettersToRemove = Lists.newArrayList();
 		for(Letter letter : letters) {
 			if(letter.getLetterPixelPoints().size() < 5) {
@@ -82,13 +78,13 @@ public class WordComponentAnalyzer {
 		return newLetters;
 	}
 	
-	public List<Point> getSingleLetterPointSet() {
+	private List<Point> getSingleLetterPointSet() {
 		Point firstPixel = totalBlackPixels.get(0);
 		totalBlackPixels.remove(firstPixel);
 		return getAllPixelsNextTo(firstPixel);
 	}
 	
-	public List<Point> getAllPixelsNextTo(Point firstPixel) {
+	private List<Point> getAllPixelsNextTo(Point firstPixel) {
 		List<Point> actualNeighborPixels= Lists.newArrayList(firstPixel);
 		List<Point> possibleNeighborPositions = CoordinateUtils.getNeighborCoordinates(firstPixel, 1, false);
 		for(Point position : possibleNeighborPositions) {
@@ -102,7 +98,7 @@ public class WordComponentAnalyzer {
 		return actualNeighborPixels;
 	}
 	
-	public boolean lettersStillInPool(){
+	private boolean lettersStillInPool(){
 		if (totalBlackPixels.size() == 0) {
 			return false;
 		} else {

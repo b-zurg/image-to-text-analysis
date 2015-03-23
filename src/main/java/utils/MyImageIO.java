@@ -9,8 +9,14 @@ import java.io.IOException;
 import javax.imageio.ImageIO;
 
 public class MyImageIO {
-	public BufferedImage openBufferedImage(String filename) throws IOException{
-		BufferedImage image = ImageIO.read(new File(filename));
+	public BufferedImage openBufferedImage(String filename){
+		BufferedImage image = null;
+		try {
+			image = ImageIO.read(new File(filename));
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		return image;
 	} 
 	public void saveImage(Image image, String filePath, String fileName){
