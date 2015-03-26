@@ -1,5 +1,20 @@
 <dependency>
   <groupId>local</groupId>
+  <artifactId>bUnwarpJ_-2.6.2</artifactId>
+  <version>1.0</version>
+</dependency>
+<dependency>
+  <groupId>local</groupId>
+  <artifactId>imagej</artifactId>
+  <version>1.0</version>
+</dependency>
+<dependency>
+  <groupId>local</groupId>
+  <artifactId>junit-4.7</artifactId>
+  <version>1.0</version>
+</dependency>
+<dependency>
+  <groupId>local</groupId>
   <artifactId>marvin_1.5.1</artifactId>
   <version>1.0</version>
 </dependency>
@@ -336,5 +351,10 @@
 <dependency>
   <groupId>local</groupId>
   <artifactId>org.marvinproject.image.transform.skew</artifactId>
+  <version>1.0</version>
+</dependency>
+<dependency>
+  <groupId>local</groupId>
+  <artifactId>SplineDeformationGenerator_</artifactId>
   <version>1.0</version>
 </dependency>

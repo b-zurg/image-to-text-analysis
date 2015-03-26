@@ -15,21 +15,7 @@ import utils.Point;
 public class ParagraphComponentAnalyzer {
 	BufferedImage untouchedImage, mutableImage;
 	MyImageIO imageio = new MyImageIO();
-
-	@Deprecated
-	private void preprocessImageForLineAnalysis() {
-		ImageUtils.blurImageFast(mutableImage, 5,  5);
-		ImageUtils.blurImageHorizontal(mutableImage, 5, 5);
-		ImageUtils.threshold(mutableImage, 0.9);
-	}
-	
-	@Deprecated
-	public void setParagraphImage(BufferedImage image) {
-		this.untouchedImage = ImageUtils.copyImage(image);
-		this.mutableImage = ImageUtils.copyImage(image);
-
-		preprocessImageForLineAnalysis();
-	}
+	private boolean useHotfix;
 	
 	public void setImages(BufferedImage untouchedImage, BufferedImage blurredImage) {
 		this.untouchedImage = ImageUtils.copyImage(untouchedImage);
@@ -39,6 +25,10 @@ public class ParagraphComponentAnalyzer {
 	public void setImages(BufferedImage untouchedImage) {
 		this.untouchedImage = ImageUtils.copyImage(untouchedImage);
 		this.mutableImage = ImageUtils.copyImage(untouchedImage);				
+	}
+	
+	public void setUseHotfix(boolean val) {
+		useHotfix = val;
 	}
 	
 	public void setHorizontalBlur(int neighborhood, int iterations) {
@@ -124,6 +114,8 @@ public class ParagraphComponentAnalyzer {
 		int prevColor = mutableImage.getRGB(0, 0);
 		for(int x = numTracers; x < mutableImage.getWidth(); x += numTracers)
 		{
+			if(useHotfix) { lineSplits.put(x, 0); }
+
 //			lineSplits.put(x, 0);
 			for(int y = 1; y < mutableImage.getHeight(); y++)
 			{
@@ -153,6 +145,7 @@ public class ParagraphComponentAnalyzer {
 	
 	private List<Integer> getYsBetweenSplits(List<Integer> yTracer){
 		List<Integer> average = Lists.newArrayList();
+
 		for(int y = 1;  y < yTracer.size(); y += 2){
 			int newY = (yTracer.get(y) + yTracer.get(y-1))/2;
 			average.add(newY);

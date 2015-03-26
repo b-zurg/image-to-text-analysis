@@ -7,9 +7,9 @@ import java.awt.image.BufferedImage;
 import java.util.List;
 import java.util.function.Function;
 
-import com.google.common.collect.Lists;
+import marvin.image.MarvinImage;
 
-import document.structure.Letter;
+import com.google.common.collect.Lists;
 
 public class ImageUtils {
 
@@ -56,6 +56,9 @@ public class ImageUtils {
 	}
 
 	public static void blurImageFast(BufferedImage image, int radius, int blurLevel) {
+		MarvinImage mi = new MarvinImage(image);
+		
+		
 		blurImageHorizontal(image, radius, blurLevel);
 		blurImageVertical(image, radius, blurLevel);
 
@@ -171,10 +174,10 @@ public class ImageUtils {
 					int newred = totalred/range;
 					int newgreen = totalgreen/range;
 					int newblue = totalblue/range;
-					if(newred > 255 || newgreen > 255 || newblue > 255) {
-						System.out.println("range: " + range);
-					}
-					
+//					if(newred > 255 || newgreen > 255 || newblue > 255) {
+//						System.out.println("range: " + range);
+//					}
+//					
 					newred = Math.min(255, Math.max(0, newred));
 					newgreen = Math.min(255, Math.max(0, newgreen));
 					newblue = Math.min(255, Math.max(0, newblue));
