@@ -30,6 +30,12 @@ public class LineComponentAnalyzer {
 		this.untouchedImage = ImageUtils.copyImage(untouchedImage);
 		this.mutableImage = ImageUtils.copyImage(blurredImage);		
 	}
+	public void setUntouchedImage(BufferedImage image) {
+		this.untouchedImage = ImageUtils.copyImage(image);
+	}
+	public void setBlurredImage(BufferedImage image) {
+		this.mutableImage = ImageUtils.copyImage(image);
+	}
 	
 	public void setImages(BufferedImage untouchedImage) {
 		this.untouchedImage = ImageUtils.copyImage(untouchedImage);
@@ -63,7 +69,7 @@ public class LineComponentAnalyzer {
 	}
 	
 	//returns arrayList of x values where one should split on a line
-	private List<Integer> getWordSplits(){
+	public List<Integer> getWordSplits(){
 		int middleY = mutableImage.getHeight()/2;
 		List<Integer> xSplits = traceSideWords(middleY);
 		List<Integer> average = getXsBetweenSplits(xSplits);
@@ -99,5 +105,4 @@ public class LineComponentAnalyzer {
 //		average.add(mutableImage.getWidth());
 		return average;
 	}
-	
 }

@@ -57,22 +57,19 @@ public class ImageUtils {
 
 	public static void blurImageFast(BufferedImage image, int radius, int blurLevel) {
 		MarvinImage mi = new MarvinImage(image);
-		
-		
 		blurImageHorizontal(image, radius, blurLevel);
 		blurImageVertical(image, radius, blurLevel);
 
 	}
 
 	public static void blurImageHorizontal(BufferedImage image, int radius, int blurLevel) {
-		BufferedImage imageToModify = ImageUtils.copyImage(image);
 		BufferedImage referenceImage = ImageUtils.copyImage(image);
 		for(int level = 0; level < blurLevel; level++) 
 		{
-			for(int y = 0; y < imageToModify.getHeight(); y++) 
+			for(int y = 0; y < image.getHeight(); y++) 
 			{
 				int leftx = 0; 
-				int rightx = Math.min(imageToModify.getWidth()-1, radius);
+				int rightx = Math.min(image.getWidth()-1, radius);
 
 				List<Point> neighborCoords = Lists.newArrayList();
 				for(int xs= leftx; xs < rightx; xs++) 
@@ -87,10 +84,10 @@ public class ImageUtils {
 				Color averagedColor = new Color(totalred/totalPixels, totalgreen/totalPixels, totalblue/totalPixels);
 				image.setRGB(0, y, averagedColor.getRGB());
 
-				for(int x = 1; x < imageToModify.getWidth(); x++)
+				for(int x = 1; x < image.getWidth(); x++)
 				{	
 					leftx = Math.max(0, x - radius);
-					rightx = Math.min(imageToModify.getWidth()-1, x + radius);
+					rightx = Math.min(image.getWidth()-1, x + radius);
 					
 					int range = rightx - leftx;
 					int prevRGB = referenceImage.getRGB(leftx, y);
@@ -101,10 +98,11 @@ public class ImageUtils {
 						totalred = totalred + getRed.apply(nextRGB);
 						totalgreen = totalgreen + getGreen.apply(nextRGB);
 					}
-					else if(rightx == imageToModify.getWidth()-1) {
+					else if(rightx == image.getWidth()-1) {
 						totalblue = totalblue - getBlue.apply(prevRGB);
 						totalred = totalred - getRed.apply(prevRGB);
-						totalgreen = totalgreen - getGreen.apply(prevRGB);						
+						totalgreen = totalgreen - getGreen.apply(prevRGB);
+						range--;
 					}
 					else {
 						totalblue = totalblue - getBlue.apply(prevRGB) + getBlue.apply(nextRGB);
@@ -124,14 +122,13 @@ public class ImageUtils {
 
 	public static void blurImageVertical(BufferedImage image, int radius, int blurLevel) {
 		BufferedImage referenceImage = ImageUtils.copyImage(image);
-		BufferedImage imageToModify = ImageUtils.copyImage(image);
 		
 		for(int level = 0; level < blurLevel; level++) 
 		{
-			for(int x = 0; x < imageToModify.getWidth(); x++)
+			for(int x = 0; x < image.getWidth(); x++)
 			{
 				int topy = 0;
-				int bottomy = Math.min(imageToModify.getHeight()-1, radius);
+				int bottomy = Math.min(image.getHeight()-1, radius);
 
 				List<Point> neighborCoords = Lists.newArrayList();
 				for(int ys = topy; ys < bottomy; ys++) {
@@ -146,12 +143,13 @@ public class ImageUtils {
 
 				image.setRGB(x, 0, averagedColor.getRGB());
 
-				for(int y = 1; y < imageToModify.getHeight(); y++)
+				for(int y = 1; y < image.getHeight(); y++)
 				{
 					topy = Math.max(0, y - radius);
 					bottomy = Math.min(image.getHeight()-1, y + radius);
 					
 					int range = bottomy - topy;
+					int whiteRGB = Color.WHITE.getRGB();
 					int prevRGB = referenceImage.getRGB(x, topy);
 					int nextRGB = referenceImage.getRGB(x, bottomy);
 
@@ -160,10 +158,11 @@ public class ImageUtils {
 						totalred = totalred + getRed.apply(nextRGB);
 						totalgreen = totalgreen + getGreen.apply(nextRGB);
 					}
-					else if(bottomy == imageToModify.getWidth()-1) {
+					else if(bottomy == image.getHeight()-1) {
 						totalblue = totalblue - getBlue.apply(prevRGB);
 						totalred = totalred - getRed.apply(prevRGB);
-						totalgreen = totalgreen - getGreen.apply(prevRGB);						
+						totalgreen = totalgreen - getGreen.apply(prevRGB);
+						range--;
 					}
 					else {
 						totalblue = totalblue - getBlue.apply(prevRGB) + getBlue.apply(nextRGB);
@@ -174,10 +173,7 @@ public class ImageUtils {
 					int newred = totalred/range;
 					int newgreen = totalgreen/range;
 					int newblue = totalblue/range;
-//					if(newred > 255 || newgreen > 255 || newblue > 255) {
-//						System.out.println("range: " + range);
-//					}
-//					
+					
 					newred = Math.min(255, Math.max(0, newred));
 					newgreen = Math.min(255, Math.max(0, newgreen));
 					newblue = Math.min(255, Math.max(0, newblue));
@@ -277,9 +273,15 @@ public class ImageUtils {
 			image.setRGB(x, y, Color.RED.getRGB());
 		}
 	}
-	public static void createVerticalRedlineAt(BufferedImage image, int topY, int bottomY, int x){
-		for(int y = topY; y < bottomY; y++) {
+	public static void createVerticalRedlineAt(BufferedImage image, int x){
+		for(int y = 0; y < image.getHeight(); y++) {
 			image.setRGB(x, y, Color.GREEN.getRGB());
+		}
+	}
+	
+	public static void createVerticalRedLinesAt(BufferedImage image, List<Integer> xs) {
+		for(int x : xs) {
+			createVerticalRedlineAt(image, x);
 		}
 	}
 	
