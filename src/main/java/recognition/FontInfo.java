@@ -1,34 +1,63 @@
 package recognition;
 
+import javafx.beans.property.IntegerProperty;
+import javafx.beans.property.SimpleIntegerProperty;
+import javafx.beans.property.SimpleStringProperty;
+import javafx.beans.property.StringProperty;
+
 public class FontInfo {
 	
-	private String processedFontName, unprocessedFontName;
-	private int score;
-	private String ocrResults;
+	private StringProperty processedFontName, unprocessedFontName;
+	private IntegerProperty score;
+	private StringProperty ocrResults;
 	
 	
-	public String getProcessedFontName() {
+	public StringProperty getProcessedFontNameProperty() {
 		return processedFontName;
 	}
-	public void setProcessedFontName(String processedFontName) {
-		this.processedFontName = processedFontName;
+	public String getProcessedFontName() {
+		return processedFontName.get();
 	}
-	public String getUnprocessedFontName() {
+	public void setProcessedFontName(String processedFontName) {
+		this.processedFontName = new SimpleStringProperty(processedFontName);
+	}
+	
+	
+	
+	public StringProperty getUnprocessedFontNameProperty() {
 		return unprocessedFontName;
 	}
-	public void setUnprocessedFontName(String unprocessedFontName) {
-		this.unprocessedFontName = unprocessedFontName;
+	public String getUnprocessedFontName() {
+		return unprocessedFontName.get();
 	}
-	public int getScore() {
+	public void setUnprocessedFontName(String unprocessedFontName) {
+		this.unprocessedFontName = new SimpleStringProperty(unprocessedFontName);
+	}
+	
+	
+	
+	public IntegerProperty getScoreProperty() {
 		return score;
 	}
-	public void setScore(int score) {
-		this.score = score;
+	public int getScore() {
+		return score.get();
 	}
-	public String getOcrResults() {
+	public void setScore(Integer score) {
+		this.score = new SimpleIntegerProperty(score);
+	}
+	
+	
+	
+	public StringProperty getOcrResultsProperty() {
 		return ocrResults;
 	}
-	public void setOcrResults(String ocrResults) {
-		this.ocrResults = ocrResults;
+	public String getOcrResults() {
+		return ocrResults.get();
 	}
+	public void setOcrResults(String ocrResults) {
+		this.ocrResults = new SimpleStringProperty(ocrResults);
+	}
+
+	
+	
 }
