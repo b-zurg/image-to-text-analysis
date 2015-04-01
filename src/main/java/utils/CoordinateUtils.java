@@ -7,8 +7,8 @@ import java.util.function.Function;
 
 import com.google.common.collect.Lists;
 
-import document.analysis.containers.SlopeFunctions;
-import document.analysis.containers.SlopeFunctions.SlopeFunctionsBuilder;
+import document.structure.SlopeFunctions;
+import document.structure.SlopeFunctions.SlopeFunctionsBuilder;
 
 public class CoordinateUtils {
 

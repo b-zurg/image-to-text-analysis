@@ -10,8 +10,11 @@ import org.slf4j.LoggerFactory;
 
 
 
-import document.analysis.containers.SlopeFunctions;
+
+
+
 import document.structure.Letter;
+import document.structure.SlopeFunctions;
 import utils.CoordinateUtils;
 import utils.Point;
 
