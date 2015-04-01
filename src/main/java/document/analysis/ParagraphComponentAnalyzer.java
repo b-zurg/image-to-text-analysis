@@ -57,17 +57,6 @@ public class ParagraphComponentAnalyzer {
 		return subImages;
 	}
 	
-	public List<Line> getLineObjects() {
-		List<BufferedImage> lineImages = this.getLineSubImages();
-		List<Line> lineObjects = Lists.newArrayList();
-		for(BufferedImage lineImage : lineImages) {
-			Line line = new Line(lineImage);
-			lineObjects.add(line);
-		}
-		return lineObjects;
-	}
-	
-	
 	private int getBeginningX(int y, int buffer) {
 		int prevColor = mutableImage.getRGB(0, y);
 		int beginX = 0;
@@ -95,14 +84,25 @@ public class ParagraphComponentAnalyzer {
 		return Math.min(endX + buffer, mutableImage.getWidth()-1);
 	}
 	
+	public List<Line> getLineObjects() {
+		List<BufferedImage> lineImages = this.getLineSubImages();
+		List<Line> lineObjects = Lists.newArrayList();
+		for(BufferedImage lineImage : lineImages) {
+			Line line = new Line(lineImage);
+			lineObjects.add(line);
+		}
+		return lineObjects;
+	}
+	
+	
+
+	
 	public  List<Integer> getLineSplits(){
 		
 		ArrayListMultimap<Integer, Integer> yTracerSamples = getVerticalTracerSampleSet(80);
 		List<Integer> best = getVerticalTracerWithMostSplits(yTracerSamples);
 		List<Integer> average = this.getYsBetweenSplits(best);
 
-//		ImageUtils.createHorizontalRedLinesAt(untouchedImage, average);
-//		imageio.saveImage(untouchedImage, "D:\\Code\\workspace\\ImageToText\\src\\test\\resources\\processed\\", "lines");
 		
 		return average;
 	}
@@ -114,10 +114,9 @@ public class ParagraphComponentAnalyzer {
 		int prevColor = mutableImage.getRGB(0, 0);
 		for(int x = numTracers; x < mutableImage.getWidth(); x += numTracers)
 		{
-			if(useHotfix) { lineSplits.put(x, 0); }
 
-//			lineSplits.put(x, 0);
-			for(int y = 1; y < mutableImage.getHeight(); y++)
+			lineSplits.put(x, 0);
+			for(int y = 1; y < mutableImage.getHeight()-1; y++)
 			{
 				int currentColor = mutableImage.getRGB(x, y);	
 				if(currentColor != prevColor) 
@@ -126,7 +125,7 @@ public class ParagraphComponentAnalyzer {
 				}
 				prevColor = currentColor;
 			}
-//			lineSplits.put(x, mutableImage.getHeight());
+			lineSplits.put(x, mutableImage.getHeight());
 		}
 		return lineSplits;
 	}

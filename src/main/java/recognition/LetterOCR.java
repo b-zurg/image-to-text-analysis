@@ -5,6 +5,7 @@ import java.io.File;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 import org.apache.commons.lang3.StringUtils;
@@ -22,6 +23,7 @@ public class LetterOCR {
 	private  Tesseract tesseract;
 	private static MyImageIO imageio = new MyImageIO();
 	private static String sep = File.separator;
+	private String font;
 	
 	public LetterOCR(){
 		initTesseract();
@@ -49,11 +51,13 @@ public class LetterOCR {
 	}
 	
 	public void setFont(String font) {
+		this.font = font;
 		tesseract.setLanguage(font);
 	}
 	
 	public String recognize(BufferedImage image) {
 		try {
+//			System.out.println(this.font);
 			return tesseract.doOCR(image);
 		}
 		catch (TesseractException e) {
@@ -110,7 +114,7 @@ public class LetterOCR {
 		return bestFontInfo;
 	}
 	private List<String> getTopTenFonts(Multimap<Integer, String> scores) {
-		List<Integer> sortedScores = scores.keys().stream().sorted().collect(Collectors.toList());
+		Set<Integer> sortedScores = scores.keys().stream().sorted().collect(Collectors.toSet());
 		List<String> bestFonts = Lists.newArrayList();
 		
 		int collected = 0;
