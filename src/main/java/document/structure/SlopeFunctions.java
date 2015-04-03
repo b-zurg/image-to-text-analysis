@@ -35,5 +35,4 @@ public class SlopeFunctions {
 			return new SlopeFunctions(yIn, xIn);
 		}
 	}
-	
 }

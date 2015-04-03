@@ -1,11 +1,13 @@
 package document.analysis;
 
+import java.awt.Color;
 import java.awt.image.BufferedImage;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import com.google.common.collect.ArrayListMultimap;
 import com.google.common.collect.Lists;
-import com.sun.prism.paint.Color;
 
 import document.structure.Line;
 import utils.ImageUtils;
@@ -85,48 +87,62 @@ public class ParagraphComponentAnalyzer {
 	}
 	
 	public List<Line> getLineObjects() {
-		List<BufferedImage> lineImages = this.getLineSubImages();
-		List<Line> lineObjects = Lists.newArrayList();
-		for(BufferedImage lineImage : lineImages) {
-			Line line = new Line(lineImage);
-			lineObjects.add(line);
-		}
-		return lineObjects;
+		return getLineSubImages().stream().map(img -> new Line(img)).collect(Collectors.toList());
 	}
-	
-	
-
 	
 	public  List<Integer> getLineSplits(){
 		
 		ArrayListMultimap<Integer, Integer> yTracerSamples = getVerticalTracerSampleSet(80);
 		List<Integer> best = getVerticalTracerWithMostSplits(yTracerSamples);
-		List<Integer> average = this.getYsBetweenSplits(best);
+//		List<Integer> average = this.getYsBetweenSplits(best);
 
 		
-		return average;
+		return best;
 	}
 	
 	private ArrayListMultimap<Integer, Integer> getVerticalTracerSampleSet(int tracers){
 		int numTracers = mutableImage.getWidth()/tracers;
 		ArrayListMultimap<Integer, Integer> lineSplits = ArrayListMultimap.create(numTracers + 5, 100);
 		
-		int prevColor = mutableImage.getRGB(0, 0);
+
+		
 		for(int x = numTracers; x < mutableImage.getWidth(); x += numTracers)
 		{
-
-			lineSplits.put(x, 0);
+			int prevColor = mutableImage.getRGB(x, 0);
+			int yPrev = 0;
+			boolean prevIsWhite = (prevColor == Color.WHITE.getRGB());
+//			if(!prevIsWhite) lineSplits.put(x, 0);
+			
 			for(int y = 1; y < mutableImage.getHeight()-1; y++)
 			{
 				int currentColor = mutableImage.getRGB(x, y);	
-				if(currentColor != prevColor) 
-				{
-					lineSplits.put(x, y);
+
+				
+				if(currentColor == Color.BLACK.getRGB()) {
+					if(prevIsWhite) {
+						lineSplits.put(x, (yPrev + y)/2);
+						prevIsWhite = false;
+					}
 				}
+				if(currentColor ==  Color.WHITE.getRGB()) {
+					if(!prevIsWhite) {
+						yPrev = y;
+						prevIsWhite = true;
+					}
+				}
+				
 				prevColor = currentColor;
+				if(y == mutableImage.getHeight()-2) {
+//					if(currentColor == Color.BLACK.getRGB()) { 
+						lineSplits.put(x, y);
+//					}
+				}
 			}
-			lineSplits.put(x, mutableImage.getHeight());
+
 		}
+
+
+		
 		return lineSplits;
 	}
 	

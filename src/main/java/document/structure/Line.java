@@ -10,24 +10,28 @@ import document.analysis.LineComponentAnalyzer;
 public class Line {
 	private List<Word> words;
 	private LineComponentAnalyzer analyzer;
+	private BufferedImage image;
 	
-	public Line(BufferedImage lineImage){
-		words = Lists.newArrayList();
+	public Line(BufferedImage img){
+		this.image = img;
 		analyzer = new LineComponentAnalyzer();
-		
-		analyzer.setLineImage(lineImage);
-		initWordObjects();
+		analyzer.setUntouchedImage(img);
+	}
+	public void setStandardBlur(int neighborhood, int iterations) {
+		analyzer.setStandardBlur(neighborhood, iterations);
+	}
+	public void setVerticalBlur(int neighborhood, int iterations) {
+		analyzer.setVerticalBlur(neighborhood, iterations);
+	}
+	public void setThreshold(double thresh) {
+		analyzer.setThreshold(thresh);
 	}
 	
-	private void initWordObjects(){
-		List<BufferedImage> wordImages = analyzer.getWordSubImages();
-		for(BufferedImage wordImage : wordImages) {
-			words.add(new Word(wordImage));
-		}
-	}
+	
 	
 	private List<String> getWordsAsStringList(){
 		List<String> totalWords = Lists.newArrayList();
+		List<Word> words = analyzer.getWordObjects();
 		for(Word wrd : words) {
 			totalWords.add(wrd.getWordAsString() + " ");
 		}
@@ -40,6 +44,7 @@ public class Line {
 		for(String wordString: wordStrings) {
 			totalString += wordString + " ";
 		}
+		totalString += "\n";
 		return totalString;
 	}
 }

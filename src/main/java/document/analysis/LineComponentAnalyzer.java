@@ -2,9 +2,11 @@ package document.analysis;
 
 import java.awt.image.BufferedImage;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import com.google.common.collect.Lists;
 
+import document.structure.Word;
 import utils.ImageUtils;
 import utils.MyImageIO;
 import utils.Point;
@@ -13,39 +15,18 @@ public class LineComponentAnalyzer {
 	BufferedImage untouchedImage, mutableImage;
 	MyImageIO imageio = new MyImageIO();
 
-	@Deprecated
-	private void preprocessImageForLineAnalysis() {
-		ImageUtils.blurImageFast(mutableImage, 5,  4);
-		ImageUtils.blurImageVertical(mutableImage, 5, 3);
-		ImageUtils.threshold(mutableImage, 0.87);
-	}
-	@Deprecated
-	public void setLineImage(BufferedImage lineImage) {
-		this.untouchedImage = ImageUtils.copyImage(lineImage);
-		this.mutableImage = ImageUtils.copyImage(lineImage);
-		preprocessImageForLineAnalysis();
-	}
-	
-	public void setImages(BufferedImage untouchedImage, BufferedImage blurredImage) {
-		this.untouchedImage = ImageUtils.copyImage(untouchedImage);
-		this.mutableImage = ImageUtils.copyImage(blurredImage);		
-	}
 	public void setUntouchedImage(BufferedImage image) {
 		this.untouchedImage = ImageUtils.copyImage(image);
+		this.mutableImage = ImageUtils.copyImage(image);
 	}
 	public void setBlurredImage(BufferedImage image) {
 		this.mutableImage = ImageUtils.copyImage(image);
 	}
-	
-	public void setImages(BufferedImage untouchedImage) {
-		this.untouchedImage = ImageUtils.copyImage(untouchedImage);
-		this.mutableImage = ImageUtils.copyImage(untouchedImage);				
+
+	public void setVerticalBlur(int neighborhood, int iterations) {
+		ImageUtils.blurImageVertical(mutableImage, neighborhood, iterations);
 	}
-	
-	public void setHorizontalBlur(int neighborhood, int iterations) {
-		ImageUtils.blurImageHorizontal(mutableImage, neighborhood, iterations);
-	}
-	public void setBlur(int neighborhood, int iterations) {
+	public void setStandardBlur(int neighborhood, int iterations) {
 		ImageUtils.blurImageFast(mutableImage, neighborhood, iterations);
 	}
 	public void setThreshold(double threshold) {
@@ -66,6 +47,11 @@ public class LineComponentAnalyzer {
 			subImages.add(subImage);
 		}
 		return subImages;
+	}
+	
+	public List<Word> getWordObjects() {
+		List<Word> words = getWordSubImages().stream().map(img -> new Word(img)).collect(Collectors.toList());
+		return words;
 	}
 	
 	//returns arrayList of x values where one should split on a line

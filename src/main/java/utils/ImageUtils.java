@@ -56,7 +56,6 @@ public class ImageUtils {
 	}
 
 	public static void blurImageFast(BufferedImage image, int radius, int blurLevel) {
-		MarvinImage mi = new MarvinImage(image);
 		blurImageHorizontal(image, radius, blurLevel);
 		blurImageVertical(image, radius, blurLevel);
 

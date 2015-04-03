@@ -10,19 +10,24 @@ public class Word {
 	WordComponentAnalyzer analyzer;
 	BufferedImage wordImage;
 	List<BufferedImage> letterImages;
-	LetterOCR locr = new LetterOCR();
 	
 	public Word(BufferedImage wordImage) {
 		analyzer = new WordComponentAnalyzer(wordImage);
 		letterImages = analyzer.getLetterImages();
+		this.wordImage = wordImage;
 	}
 	
 	public String getWordAsString(){
 		String converted = "";
 		for(BufferedImage letterImage : letterImages) 
 		{	
-			converted += locr.recognize(letterImage).trim();
+			LetterOCR.setPageSegmentationMode(LetterOCR.SINGLECHAR);
+			LetterOCR.getInstance();
+			converted += LetterOCR.recognize(letterImage).trim();
 		}
+//		LetterOCR.setPageSegmentationMode(LetterOCR.WORD);
+//		LetterOCR.getInstance();
+//		return LetterOCR.recognize(wordImage).trim();
 		return converted;
 	}
 	
