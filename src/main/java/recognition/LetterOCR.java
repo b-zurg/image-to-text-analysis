@@ -2,11 +2,14 @@ package recognition;
 
 import java.awt.image.BufferedImage;
 import java.io.File;
+import java.io.InputStream;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
+
+import javafx.scene.text.Font;
 
 import org.apache.commons.lang3.StringUtils;
 
@@ -85,6 +88,12 @@ public class LetterOCR {
 	public static void setFont(String font) {
 		LetterOCR.font = font;
 		tesseract.setLanguage(font);
+	}
+	
+	public static Font getFont(double size) {
+		InputStream fontStream = LetterOCR.class.getResourceAsStream("/fonts/ttfs/"+LetterOCR.font);
+		Font font = Font.loadFont(fontStream, size);
+		return font;
 	}
 	
 	public static String recognize(BufferedImage image) {

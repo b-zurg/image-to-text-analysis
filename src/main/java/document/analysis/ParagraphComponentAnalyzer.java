@@ -17,7 +17,6 @@ import utils.Point;
 public class ParagraphComponentAnalyzer {
 	BufferedImage untouchedImage, mutableImage;
 	MyImageIO imageio = new MyImageIO();
-	private boolean useHotfix;
 	
 	public void setImages(BufferedImage untouchedImage, BufferedImage blurredImage) {
 		this.untouchedImage = ImageUtils.copyImage(untouchedImage);
@@ -29,10 +28,7 @@ public class ParagraphComponentAnalyzer {
 		this.mutableImage = ImageUtils.copyImage(untouchedImage);				
 	}
 	
-	public void setUseHotfix(boolean val) {
-		useHotfix = val;
-	}
-	
+
 	public void setHorizontalBlur(int neighborhood, int iterations) {
 		ImageUtils.blurImageHorizontal(mutableImage, neighborhood, iterations);
 	}

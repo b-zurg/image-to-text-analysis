@@ -4,8 +4,12 @@ import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
 import java.util.List;
 import java.util.function.Function;
+
+import javax.imageio.ImageIO;
 
 import marvin.image.MarvinImage;
 
@@ -229,6 +233,17 @@ public class ImageUtils {
 	    g.drawImage(source, 0, 0, null);
 	    g.dispose();
 	    return b;
+	}
+	
+	public static BufferedImage openImageFromFile(File file) {
+		BufferedImage img = null;
+		try {
+			img = ImageIO.read(file);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return img;
 	}
 	
 	public static BufferedImage getSubImageFrom(BufferedImage image, Point topLeft, Point bottomRight) {
