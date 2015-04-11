@@ -28,6 +28,10 @@ public class ParagraphComponentAnalyzer {
 		this.mutableImage = ImageUtils.copyImage(untouchedImage);				
 	}
 	
+	public boolean imagesAreEmpty() {
+		return (untouchedImage == null);
+	}
+	
 
 	public void setHorizontalBlur(int neighborhood, int iterations) {
 		ImageUtils.blurImageHorizontal(mutableImage, neighborhood, iterations);

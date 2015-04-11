@@ -100,5 +100,25 @@ public class CoordinateUtils {
 				build();
 	}
 	
+	public static Point getTopLeftPoint(Point p1, Point p2) {
+		int x1 = p1.X();
+		int x2 = p2.X();
+		
+		int y1 = p1.Y();
+		int y2 = p2.Y();
+		
+		int topy = Math.min(y1, y2);
+		int leftx = Math.min(x1, x2);
+		
+		return new Point(leftx, topy);
+	}
+	
+	public static int getWidthBetweenPoints(Point p1, Point p2) {
+		return Math.abs(p1.X() - p2.X());
+	}
+	public static int getHeightBetweenPoints(Point p1, Point p2) {
+		return Math.abs(p1.Y() - p2.Y());
+	}
+	
 	
 }

@@ -8,6 +8,11 @@ public class Point {
 		this.y = y;
 	}
 	
+	public Point(Point other) {
+		this.x = other.x;
+		this.y = other.y;
+	}
+	
 	public boolean isNextTo(Point other){
 		int xs = other.X();
 		int ys = other.Y();
