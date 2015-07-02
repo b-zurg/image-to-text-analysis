@@ -100,6 +100,19 @@ public class CoordinateUtils {
 				build();
 	}
 	
+	public static double getProcessedAngleBetween(Point p1, Point p2) {
+		double angle = getRawAngleBetween(p1, p2);
+		if(angle < 0){
+			angle += 360;
+		}
+		return angle;
+	}
+	public static double getRawAngleBetween(Point p1, Point p2) {
+		float angle = (float) Math.toDegrees(Math.atan2(p2.Y() - p1.Y(), p2.X() - p1.X()));
+		return (double) angle;
+	}
+	
+	
 	public static Point getTopLeftPoint(Point p1, Point p2) {
 		int x1 = p1.X();
 		int x2 = p2.X();

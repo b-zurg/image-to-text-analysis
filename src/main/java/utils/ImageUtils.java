@@ -1,9 +1,15 @@
 package utils;
 
+import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.awt.RenderingHints;
+import java.awt.geom.AffineTransform;
+import java.awt.geom.Path2D;
+import java.awt.image.AffineTransformOp;
 import java.awt.image.BufferedImage;
+import java.awt.image.renderable.ParameterBlock;
 import java.io.File;
 import java.io.IOException;
 import java.util.List;
@@ -11,7 +17,14 @@ import java.util.function.Function;
 
 import javax.imageio.ImageIO;
 
+import javaxt.io.*;
 import marvin.image.MarvinImage;
+import marvin.image.MarvinImageMask;
+import marvin.plugin.MarvinImagePlugin;
+import marvin.util.MarvinAttributes;
+import marvin.util.MarvinPluginLoader;
+
+import org.marvinproject.image.transform.rotate.*;
 
 import com.google.common.collect.Lists;
 
@@ -246,6 +259,39 @@ public class ImageUtils {
 		return img;
 	}
 	
+	public static BufferedImage rotateImage(BufferedImage image, int degrees) {
+		double angles = Math.toRadians(degrees);
+        double sin = Math.abs(Math.sin(angles)), cos = Math.abs(Math.cos(angles));
+        
+        int w = image.getWidth(), h = image.getHeight();
+        int neww = (int)Math.floor(w*cos+h*sin), newh = (int)Math.floor(h*cos+w*sin);
+        int transparency = image.getColorModel().getTransparency();
+        
+        BufferedImage result = new BufferedImage(neww, newh, image.getType());
+        Graphics2D g = result.createGraphics();
+
+        g.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON) ;
+        g.setRenderingHint(RenderingHints.KEY_INTERPOLATION, RenderingHints.VALUE_INTERPOLATION_BICUBIC) ;
+        g.setRenderingHint(RenderingHints.KEY_RENDERING, RenderingHints.VALUE_RENDER_QUALITY) ;
+        
+        g.translate((neww-w)/2, (newh-h)/2);
+        g.rotate(angles, w/2, h/2);
+        g.drawRenderedImage(image, null);
+        return result;
+	}
+	
+	public static BufferedImage skewImage(BufferedImage image, Point ul, Point ur, Point lr, Point ll) {
+		javaxt.io.Image jxtimage = new javaxt.io.Image(ImageUtils.copyImage(image));
+		int width = image.getWidth();
+		int height = image.getHeight();
+		jxtimage.setCorners(ul.X(), ul.Y(),              //UL
+		                 ur.X(), ur.Y(),         //UR
+		                 lr.X(), lr.Y(), //LR
+		                 ll.X(), ll.Y());         //LL
+		return jxtimage.getBufferedImage();
+	}
+
+	
 	public static BufferedImage getSubImageFrom(BufferedImage image, Point topLeft, Point bottomRight) {
 		int leftX = topLeft.X();
 		int topY = topLeft.Y();
@@ -299,16 +345,23 @@ public class ImageUtils {
 		}
 	}
 	
-	public static void drawLineBetweenPoints(Point p1, Point p2, BufferedImage image) {
+	public static void drawLineBetweenPoints(Color color, Point p1, Point p2, BufferedImage image) {
 		Graphics g = image.getGraphics();
-		g.setColor(Color.RED);
+		g.setColor(color);
 		g.drawLine(p1.X(), p1.Y(), p2.X(), p2.Y());
 	}
 	
-	public static void drawPointOnLetter(BufferedImage image, Point p1, int radius) {
+	public static void drawPointOnImage(BufferedImage image, Point p1, int radius, Color color) {
 		Graphics g = image.getGraphics();
-		g.setColor(Color.RED);
-		g.drawOval(p1.X()-radius, p1.Y()-radius, radius, radius);
+		g.setColor(color);
+		g.fillOval(p1.X()-radius, p1.Y()-radius, radius, radius);
+	}
+	
+	public static void drawCurveOnImage(Color color, BufferedImage image, Path2D.Double path) {
+		Graphics2D g = (Graphics2D) image.getGraphics();
+		g.setColor(color);
+		g.setStroke(new BasicStroke(3));
+		g.draw(path);
 	}
 
 	

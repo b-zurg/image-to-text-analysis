@@ -58,7 +58,7 @@ public class ItalicsDotAnalyzer {
 			List<Point> letter,
 			double[] percentageInterval1, 
 			double[] percentageInterval2) 
-	{		
+	{	
 		List<Point> intervalSet1 = getPixelsBetweenYPercentageVals(letter, percentageInterval1[0], percentageInterval1[1]);
 		List<Point> intervalSet2 = getPixelsBetweenYPercentageVals(letter, percentageInterval2[0], percentageInterval2[1]);
 		
@@ -66,7 +66,7 @@ public class ItalicsDotAnalyzer {
 	}
 	
 	private static SlopeFunctions getSlopeFunctionBetweenPixelSets(
-			List<Point> set1, List<Point> set2) 
+			List<Point> set1, List<Point> set2)
 	{ 		
 		Point p1 = getCentralPointOf(set1);
 		Point p2 = getCentralPointOf(set2);
